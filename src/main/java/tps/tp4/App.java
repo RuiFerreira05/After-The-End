@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 public class App {
 
     private final String SAVEPATH = "saves/";
-    private final int INITMENU = 0;
-    private final int MAINMENU = 1;
+    private final int MAIN_MENU = 0;
+    private final int GAME_MENU = 1;
     
     private Game game;
     private List<String> saveFiles;
@@ -24,7 +24,7 @@ public class App {
         this.game = null;
         this.saveFiles = new ArrayList<String>();
         this.scanner = new Scanner(System.in);
-        this.state = 4;
+        this.state = MAIN_MENU;
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
     }
@@ -37,12 +37,12 @@ public class App {
         loadSaves();
         while (true) {
             switch (state) {
-                case INITMENU:
-                initMenu();
+                case MAIN_MENU:
+                mainMenu();
                 break;
 
-                case MAINMENU:
-                mainMenu();
+                case GAME_MENU:
+                gameMenu();
                 break;
 
                 // TODO
@@ -55,19 +55,18 @@ public class App {
         }
     }
     
-    private void initMenu() {
+    private void mainMenu() {
         Utils.printTitle("Welcome to After The End!");
-        System.out.println("1. New Game");
-        System.out.println("2. Load Game");
-        System.out.println("3. Exit");
-        System.out.println();
-        System.out.print(">> ");
-        logger.info("Waiting for user input...");
-        // String choice = scanner.nextLine();
-        // TODO
+        String[] options = {
+            "New game",
+            "Load game",
+            "Exit"
+        };
+        int choice = Utils.choiceList(options, scanner);
+        
     }
     
-    private void mainMenu() {
+    private void gameMenu() {
         // TODO
     }
 
