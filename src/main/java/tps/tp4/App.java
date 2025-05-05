@@ -12,6 +12,7 @@ public class App {
     private final String SAVEPATH = "saves/";
     private final int MAIN_MENU = 0;
     private final int GAME_MENU = 1;
+    private final int EXIT = 2;
     
     private Game game;
     private List<String> saveFiles;
@@ -27,6 +28,17 @@ public class App {
         this.state = MAIN_MENU;
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            exit();
+        }));
+    }
+
+    private void exit() {
+        if (game != null) {
+            saveGame();
+        }
+        logger.info("Exiting application.");
+        scanner.close();
     }
 
     private void loadSaves() {
@@ -45,11 +57,14 @@ public class App {
                 gameMenu();
                 break;
 
-                // TODO
+                case EXIT:
+                System.exit(0);
+                break;
 
                 default:
-                logger.fatal("Invalid state: " + state, new InvalidAppStateException("Invalid state: " + state));
+                logger.fatal("Invalid app state: " + state, new InvalidAppStateException("Invalid state: " + state));
                 System.exit(1);
+                break;
             }
             break;
         }
@@ -63,7 +78,38 @@ public class App {
             "Exit"
         };
         int choice = Utils.choiceList(options, scanner);
-        
+        switch (choice) {
+            case 1:
+                newGame();
+                break;
+            
+            case 2:
+                loadGame();
+                break;
+            
+            case 3:
+                System.exit(0);
+                break;
+
+            default: 
+                // default case is not needed as the options are sanitized in the choiceList function.
+                // If this triggers, something is very wrong...
+                logger.error("Invalid choice in main menu: " + choice, new InvalidAppStateException(choice));
+                System.exit(1);
+                break; 
+        }
+    }
+
+    private void newGame() {
+        // TODO
+    }
+
+    private void loadGame() {
+        // TODO
+    }
+
+    private void saveGame() {
+        // TODO
     }
     
     private void gameMenu() {
