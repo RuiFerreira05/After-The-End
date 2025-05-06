@@ -116,6 +116,14 @@ public class App {
         // TODO
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
     public static void main(String[] args) {
         App app = new App(false);
         app.start();
