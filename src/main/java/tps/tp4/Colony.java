@@ -6,7 +6,7 @@ import java.util.List;
 import tps.tp4.Errors.PopulationLimitException;
 import tps.tp4.Errors.NotEnoughResourcesException;
 
-public class Game {
+public class Colony {
 
     private App app;
     private String colonyName;
@@ -14,6 +14,7 @@ public class Game {
     private int food;
     private int stone;
     private int metal;
+    private int entertainment;
     private int[] resources;
     private int population;
     private int maxPopulation;
@@ -21,7 +22,7 @@ public class Game {
     private List<Settler> settlers;
     private List<Building> buildings;
 
-    public Game(String colonyName, List<Settler> initial_Settlers, App app) {~
+    public Colony(String colonyName, List<Settler> initial_Settlers, App app) {
         this.app = app;
         this.settlers = new ArrayList<>(settlers);
         this.buildings = new ArrayList<>();
@@ -129,6 +130,14 @@ public class Game {
 
     public void setMetal(int metal) {
         this.metal = metal;
+    }
+
+    public int getEntertainment() {
+        return entertainment;
+    }
+
+    public void setEntertainment(int entertainment) {
+        this.entertainment = entertainment;
     }
 
     public int[] getResources() {
