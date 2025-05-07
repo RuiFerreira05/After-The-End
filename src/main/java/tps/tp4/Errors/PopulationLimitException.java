@@ -1,4 +1,4 @@
-package tps.tp4.Errors;
+package tps.tp4.errors;
 
 public class PopulationLimitException extends Exception {
     public PopulationLimitException() {

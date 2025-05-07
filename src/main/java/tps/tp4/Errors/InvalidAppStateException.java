@@ -1,4 +1,4 @@
-package tps.tp4.Errors;
+package tps.tp4.errors;
 
 public class InvalidAppStateException extends Exception {
     public InvalidAppStateException(int state) {

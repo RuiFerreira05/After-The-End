@@ -3,10 +3,19 @@ package tps.tp4;
 import java.util.ArrayList;
 import java.util.List;
 
-import tps.tp4.Errors.PopulationLimitException;
-import tps.tp4.Errors.NotEnoughResourcesException;
+import tps.tp4.buildings.Building;
+import tps.tp4.errors.NotEnoughResourcesException;
+import tps.tp4.errors.PopulationLimitException;
+import tps.tp4.settlers.Settler;
 
 public class Colony {
+
+    private static final int MAX_INITIAL_POPULATION = 3;
+    private static final int MAX_INITIAL_WOOD = 10;
+    private static final int MAX_INITIAL_FOOD = 10;
+    private static final int MAX_INITIAL_STONE = 0;
+    private static final int MAX_INITIAL_METAL = 0;
+    private static final int MAX_INITIAL_ENTERTAINMENT = 0;
 
     private App app;
     private String colonyName;
@@ -15,35 +24,66 @@ public class Colony {
     private int stone;
     private int metal;
     private int entertainment;
+    private int woodProduction;
+    private int foodProduction;
+    private int stoneProduction;
+    private int metalProduction;
     private int[] resources;
     private int population;
     private int maxPopulation;
     private double overAllHappiness;
     private List<Settler> settlers;
     private List<Building> buildings;
+    private int currDay;
 
-    public Colony(String colonyName, List<Settler> initial_Settlers, App app) {
+    public Colony(String colonyName, App app) {
         this.app = app;
-        this.settlers = new ArrayList<>(settlers);
+        this.settlers = new ArrayList<>();
         this.buildings = new ArrayList<>();
         this.colonyName = colonyName;
-        this.wood = 0;
-        this.food = 0;
-        this.stone = 0;
-        this.metal = 0;
+        this.wood = MAX_INITIAL_WOOD;
+        this.food = MAX_INITIAL_FOOD;
+        this.stone = MAX_INITIAL_STONE;
+        this.metal = MAX_INITIAL_METAL;
+        this.entertainment = MAX_INITIAL_ENTERTAINMENT;
+        this.woodProduction = 0;
+        this.foodProduction = 0;
+        this.stoneProduction = 0;
+        this.metalProduction = 0;
         this.resources = new int[] {wood, food, stone, metal};
-        this.maxPopulation = 10;
+        this.maxPopulation = MAX_INITIAL_POPULATION;
         this.population = settlers.size();
         updateOverallHappiness();
+        this.currDay = 1;
     }
 
     public double updateOverallHappiness() {
-        double happiness = 0.0;
+        double happiness = 0;
         for (Settler settler : settlers) {
-            happiness += settler.updateHappiness();
+            happiness += settler.getHappiness();
         }
-        this.overAllHappiness = (happiness / population);
+        this.overAllHappiness = happiness / population;
         return overAllHappiness;
+    }
+
+    public void nextDay() {
+        this.wood += woodProduction;
+        this.food += foodProduction;
+        this.stone += stoneProduction;
+        this.metal += metalProduction;
+        runEvent();
+        currDay++;
+    }
+
+    private void runEvent() {
+        // TODO
+    }
+
+    public void addResources(int[] resources) {
+        this.wood += resources[0];
+        this.food += resources[1];
+        this.stone += resources[2];
+        this.metal += resources[3];
     }
 
     public void addSettler(Settler settler) throws PopulationLimitException {
@@ -68,9 +108,14 @@ public class Colony {
         if (checkCost(building)) {
             buildings.add(building);
             wood -= building.getCost()[0];
-            food -= building.getCost()[1];
-            stone -= building.getCost()[2];
-            metal -= building.getCost()[3];
+            stone -= building.getCost()[1];
+            metal -= building.getCost()[2];
+
+            woodProduction += building.getWoodProduction();
+            foodProduction += building.getFoodProduction();
+            stoneProduction += building.getStoneProduction();
+            metalProduction += building.getMetalProduction();
+            entertainment += building.getEntertainment();
         } else {
             NotEnoughResourcesException e = new NotEnoughResourcesException(building);
             app.getLogger().error(e.getMessage(), e);
@@ -81,17 +126,20 @@ public class Colony {
     private boolean checkCost(Building building) {
         if (building.getCost()[0] > wood) {
             return false;
-        } else if (building.getCost()[1] > food) {
+        } else if (building.getCost()[1] > stone) {
             return false;
-        } else if (building.getCost()[2] > stone) {
-            return false;
-        } else if (building.getCost()[3] > metal) {
+        } else if (building.getCost()[2] > metal) {
             return false;
         }
         return true;
     }
 
     // ----------------- Getters and Setters ----------------- //
+
+    public int getCurrDay() {
+        return currDay;
+    }
+
     public String getColonyName() {
         return colonyName;
     }

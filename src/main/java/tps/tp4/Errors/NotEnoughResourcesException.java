@@ -1,6 +1,6 @@
-package tps.tp4.Errors;
+package tps.tp4.errors;
 
-import tps.tp4.Building;
+import tps.tp4.buildings.Building;
 
 public class NotEnoughResourcesException extends Exception {
     public NotEnoughResourcesException(Building building) {
