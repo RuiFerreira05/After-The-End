@@ -1,6 +1,6 @@
-package tps.tp4.buildings;
+package tps.tp4.structures;
 
-public enum BuildingTypes {
+public enum StructureTypes {
     HOUSE,
     FARM,
     FACTORY,

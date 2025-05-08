@@ -1,6 +1,6 @@
-package tps.tp4.buildings;
+package tps.tp4.structures;
 
-public abstract class Building {
+public abstract class Structure {
     
     private String name;
     private int[] cost;
@@ -10,7 +10,7 @@ public abstract class Building {
     private double stoneProduction;
     private double metalProduction;
 
-    public Building(String name, int[] cost, double entertainment, double woodProduction, double foodProduction, double stoneProduction, double metalProduction) {
+    public Structure(String name, int[] cost, double entertainment, double woodProduction, double foodProduction, double stoneProduction, double metalProduction) {
         this.name = name;
         this.cost = cost;
         this.entertainment = entertainment;
@@ -48,7 +48,7 @@ public abstract class Building {
         return woodProduction;
     }
 
-    public String getBuildingInfo(boolean detailed) {
+    public String getStructureInfo(boolean detailed) {
         if (!detailed) {
             return name + " - Production /day: " + getWoodProduction() + " wood, " + getFoodProduction() + " food, " + getStoneProduction() + " stone, " + getMetalProduction() + " metal";
         } else {

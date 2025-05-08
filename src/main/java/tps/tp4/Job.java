@@ -3,7 +3,7 @@ package tps.tp4;
 import java.util.ArrayList;
 import java.util.List;
 
-import tps.tp4.buildings.Building;
+import tps.tp4.structures.Structure;
 import tps.tp4.errors.MaxHabitantLimitException;
 import tps.tp4.settlers.Settler;
 
@@ -11,13 +11,13 @@ public class Job {
 
     private String name;
     private int maxPositions;
-    private List<Building> buildings;
+    private List<Structure> structures;
     private List<Settler> settlers;
 
     public Job(String name) {
         this.name = name;
         this.maxPositions = 0;
-        this.buildings = new ArrayList<Building>();
+        this.structures = new ArrayList<Structure>();
         this.settlers = new ArrayList<Settler>();
     }
 
@@ -41,16 +41,16 @@ public class Job {
         this.maxPositions -= positions;
     }
 
-    public List<Building> getBuildings() {
-        return buildings;
+    public List<Structure> getStructures() {
+        return structures;
     }
 
-    public void addBuilding(Building building) {
-        this.buildings.add(building);
+    public void addStructure(Structure structure) {
+        this.structures.add(structure);
     }
 
-    public void removeBuilding(Building building) {
-        this.buildings.remove(building);
+    public void removeStructure(Structure structure) {
+        this.structures.remove(structure);
     }
 
     public List<Settler> getSettlers() {

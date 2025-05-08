@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import tps.tp4.buildings.Building;
+import tps.tp4.structures.Structure;
 import tps.tp4.errors.*;
 import tps.tp4.settlers.Settler;
 
@@ -17,7 +17,10 @@ public class App {
     private final int MAX_SAVES = 5;
     private final int MAIN_MENU = 0;
     private final int GAME_MENU = 1;
-    private final int EXIT = 2;
+    private final int SETTLER_MENU = 2;
+    private final int STRUCTURE_MENU = 3;
+    private final int EVENT_MENU = 4;
+    private final int EXIT = 5;
     
     private Colony colony;
     private List<String> saveFiles;
@@ -62,18 +65,78 @@ public class App {
                 gameMenu();
                 break;
 
+                case SETTLER_MENU:
+                settlerMenu();
+                break;
+
+                case STRUCTURE_MENU:
+                structureMenu();
+                break;
+
+                case EVENT_MENU:
+                // eventMenu();
+                // TODO
+                break;
+
                 case EXIT:
                 System.exit(0);
                 break;
 
                 default:
-                logger.fatal("Invalid app state: " + state, new InvalidAppStateException("Invalid state: " + state));
+                logger.fatal("Invalid app state: " + state, new InvalidAppStateException(state));
                 System.exit(1);
                 break;
             }
         }
     }
     
+    private void structureMenu() {
+        Utils.printTitle("Structures");
+        String[] options = {
+            "List structures",
+            "Build a new structure",
+            "Back to main menu"
+        };
+        int choice = Utils.choiceList(options, scanner);
+        switch (choice) {
+            case 1:
+                listStructures();
+                break;
+            
+            case 2:
+                state = GAME_MENU;
+                break;
+
+            default:
+                logger.error("Invalid choice in structure menu: " + choice, new InvalidAppStateException(choice));
+                System.exit(1);
+                break;  
+        }
+    }
+
+    private void settlerMenu() {
+        Utils.printTitle("Settlers");
+        String[] options = {
+            "List settlers",
+            "Back to main menu"
+        };
+        int choice = Utils.choiceList(options, scanner);
+        switch (choice) {
+            case 1:
+                listSettlers();
+                break;
+            
+            case 2:
+                state = GAME_MENU;
+                break;
+
+            default:
+                logger.error("Invalid choice in settler menu: " + choice, new InvalidAppStateException(choice));
+                System.exit(1);
+                break;  
+        }
+    }
+
     private void mainMenu() {
         Utils.printTitle("Welcome to After The End!");
         String[] options = {
@@ -134,26 +197,27 @@ public class App {
     }
     
     private void gameMenu() {
-        Utils.printTitle(colony.getColonyName() + "Colony - Day: " + colony.getCurrDay() +  " - Population: " + colony.getPopulation() + "/" + colony.getMaxPopulation());
+        Utils.printTitle(colony.getColonyName() + " Colony - Day: " + colony.getCurrDay() +  " - Population: " + colony.getPopulation() + "/" + colony.getMaxPopulation());
+        System.out.println("\nWood: " + colony.getWood() + " | Food: " + colony.getFood() + " | Stone: " + colony.getStone() + " | Metal: " + colony.getMetal() + "\n");
         String[] options = {
             "Next day",
-            "List settlers",
-            "List buildings",
+            "Settlers",
+            "Structures",
             "Save game",
             "Exit"
         };
         int choice = Utils.choiceList(options, scanner);
         switch (choice) {
             case 1:
-                colony.nextDay();
+                nextDay();
                 break;
             
             case 2:
-                listSettlers();
+                state = SETTLER_MENU;
                 break;
             
             case 3:
-                listBuildings();
+                state = STRUCTURE_MENU;
                 break;
             
             case 4:
@@ -161,7 +225,7 @@ public class App {
                 break;
 
             case 5:
-                exit();
+                System.exit(0);
                 break;
 
             default:
@@ -171,6 +235,10 @@ public class App {
                 System.exit(1);
                 break;  
         }
+    }
+
+    private void nextDay() {
+        colony.nextDay();
     }
 
     private void listSettlers() {
@@ -187,13 +255,13 @@ public class App {
         scanner.nextLine();
     }
 
-    private void listBuildings() {
-        Utils.printTitle("Buildings");
-        if (colony.getBuildings().isEmpty()) {
-            System.out.println("No buildings in the colony.");
+    private void listStructures() {
+        Utils.printTitle("Structures");
+        if (colony.getStructures().isEmpty()) {
+            System.out.println("No structures in the colony.");
         } else {
-            for (Building building : colony.getBuildings()) {
-                System.out.println(building.getBuildingInfo(false));
+            for (Structure structure : colony.getStructures()) {
+                System.out.println(structure.getStructureInfo(false));
             }
         }
         System.out.println("\nPress enter to continue...");

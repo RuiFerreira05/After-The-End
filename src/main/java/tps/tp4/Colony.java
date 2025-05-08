@@ -3,7 +3,7 @@ package tps.tp4;
 import java.util.ArrayList;
 import java.util.List;
 
-import tps.tp4.buildings.Building;
+import tps.tp4.structures.Structure;
 import tps.tp4.errors.NotEnoughResourcesException;
 import tps.tp4.errors.PopulationLimitException;
 import tps.tp4.settlers.Settler;
@@ -33,13 +33,13 @@ public class Colony {
     private int maxPopulation;
     private double overAllHappiness;
     private List<Settler> settlers;
-    private List<Building> buildings;
+    private List<Structure> structures;
     private int currDay;
 
     public Colony(String colonyName, App app) {
         this.app = app;
         this.settlers = new ArrayList<>();
-        this.buildings = new ArrayList<>();
+        this.structures = new ArrayList<>();
         this.colonyName = colonyName;
         this.wood = MAX_INITIAL_WOOD;
         this.food = MAX_INITIAL_FOOD;
@@ -104,31 +104,31 @@ public class Colony {
         updateOverallHappiness();
     }
 
-    public void addBuilding(Building building) throws NotEnoughResourcesException {
-        if (checkCost(building)) {
-            buildings.add(building);
-            wood -= building.getCost()[0];
-            stone -= building.getCost()[1];
-            metal -= building.getCost()[2];
+    public void addStructure(Structure structure) throws NotEnoughResourcesException {
+        if (checkCost(structure)) {
+            structures.add(structure);
+            wood -= structure.getCost()[0];
+            stone -= structure.getCost()[1];
+            metal -= structure.getCost()[2];
 
-            woodProduction += building.getWoodProduction();
-            foodProduction += building.getFoodProduction();
-            stoneProduction += building.getStoneProduction();
-            metalProduction += building.getMetalProduction();
-            entertainment += building.getEntertainment();
+            woodProduction += structure.getWoodProduction();
+            foodProduction += structure.getFoodProduction();
+            stoneProduction += structure.getStoneProduction();
+            metalProduction += structure.getMetalProduction();
+            entertainment += structure.getEntertainment();
         } else {
-            NotEnoughResourcesException e = new NotEnoughResourcesException(building);
+            NotEnoughResourcesException e = new NotEnoughResourcesException(structure);
             app.getLogger().error(e.getMessage(), e);
             throw e;
         }
     }
 
-    private boolean checkCost(Building building) {
-        if (building.getCost()[0] > wood) {
+    private boolean checkCost(Structure structure) {
+        if (structure.getCost()[0] > wood) {
             return false;
-        } else if (building.getCost()[1] > stone) {
+        } else if (structure.getCost()[1] > stone) {
             return false;
-        } else if (building.getCost()[2] > metal) {
+        } else if (structure.getCost()[2] > metal) {
             return false;
         }
         return true;
@@ -138,6 +138,22 @@ public class Colony {
 
     public int getCurrDay() {
         return currDay;
+    }
+
+    public int getWoodProduction() {
+        return woodProduction;
+    }
+
+    public int getFoodProduction() {
+        return foodProduction;
+    }
+
+    public int getStoneProduction() {
+        return stoneProduction;
+    }
+
+    public int getMetalProduction() {
+        return metalProduction;
     }
 
     public String getColonyName() {
@@ -212,7 +228,7 @@ public class Colony {
         return settlers;
     }
 
-    public List<Building> getBuildings() {
-        return buildings;
+    public List<Structure> getStructures() {
+        return structures;
     }
 }

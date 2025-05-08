@@ -1,8 +1,8 @@
-package tps.tp4.buildings;
+package tps.tp4.structures;
 
-public class BuildingFactory {
+public class StructureFactory {
     
-    public static Building createBuilding(BuildingTypes type) {
+    public static Structure createStructure(StructureTypes type) {
         switch (type) {
             case HOUSE:
                 return new House();
@@ -19,7 +19,7 @@ public class BuildingFactory {
             // case BARRACKS:
             //     return new Barracks();
             default:
-                throw new IllegalArgumentException("Unknown building type: " + type);
+                throw new IllegalArgumentException("Unknown structure type: " + type);
         }
     }
 
