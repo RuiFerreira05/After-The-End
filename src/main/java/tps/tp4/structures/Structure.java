@@ -1,5 +1,7 @@
 package tps.tp4.structures;
 
+import tps.tp4.Colony;
+
 public abstract class Structure {
     
     private String name;
@@ -19,6 +21,12 @@ public abstract class Structure {
         this.stoneProduction = stoneProduction;
         this.metalProduction = metalProduction;
     }
+
+    public Structure(String name, int[] cost) {
+        this(name, cost, 0, 0, 0, 0, 0);
+    }
+
+    public abstract void impact(Colony colony);
 
     public String getName() {
         return name;
@@ -52,7 +60,7 @@ public abstract class Structure {
         if (!detailed) {
             return name + " - Production /day: " + getWoodProduction() + " wood, " + getFoodProduction() + " food, " + getStoneProduction() + " stone, " + getMetalProduction() + " metal";
         } else {
-            return name + " - Cost: " + cost[0] + " wood, " + cost[1] + " food, " + cost[2] + " stone, " + cost[3] + " metal" +
+            return name + " - Cost: " + cost[0] + " wood, " + cost[1] + " stone, " + cost[2] + " metal" +
                     "\nProduction /day: " + getWoodProduction() + " wood, " + getFoodProduction() + " food, " + getStoneProduction() + " stone, " + getMetalProduction() + " metal" +
                     "\nEntertainment: " + getEntertainment();
         }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import tps.tp4.structures.Structure;
+import tps.tp4.structures.StructureFactory;
+import tps.tp4.structures.StructureTypes;
 import tps.tp4.errors.*;
 import tps.tp4.settlers.Settler;
 
@@ -20,7 +22,8 @@ public class App {
     private final int SETTLER_MENU = 2;
     private final int STRUCTURE_MENU = 3;
     private final int EVENT_MENU = 4;
-    private final int EXIT = 5;
+    private final int BUILD_STRUCTURE_MENU = 5;
+    private final int EXIT = 6;
     
     private Colony colony;
     private List<String> saveFiles;
@@ -58,34 +61,38 @@ public class App {
         while (true) {
             switch (state) {
                 case MAIN_MENU:
-                mainMenu();
-                break;
+                    mainMenu();
+                    break;
 
                 case GAME_MENU:
-                gameMenu();
-                break;
+                    gameMenu();
+                    break;
 
                 case SETTLER_MENU:
-                settlerMenu();
-                break;
+                    settlerMenu();
+                    break;
 
                 case STRUCTURE_MENU:
-                structureMenu();
-                break;
+                    structureMenu();
+                    break;
+
+                case BUILD_STRUCTURE_MENU:
+                    buildStructureMenu();
+                    break;
 
                 case EVENT_MENU:
-                // eventMenu();
-                // TODO
-                break;
+                    // eventMenu();
+                    // TODO
+                    break;
 
                 case EXIT:
-                System.exit(0);
-                break;
+                    System.exit(0);
+                    break;
 
                 default:
-                logger.fatal("Invalid app state: " + state, new InvalidAppStateException(state));
-                System.exit(1);
-                break;
+                    logger.fatal("Invalid app state: " + state, new InvalidAppStateException(state));
+                    System.exit(1);
+                    break;
             }
         }
     }
@@ -102,8 +109,12 @@ public class App {
             case 1:
                 listStructures();
                 break;
-            
+
             case 2:
+                state = BUILD_STRUCTURE_MENU;
+                break;
+            
+            case 3:
                 state = GAME_MENU;
                 break;
 
@@ -111,6 +122,37 @@ public class App {
                 logger.error("Invalid choice in structure menu: " + choice, new InvalidAppStateException(choice));
                 System.exit(1);
                 break;  
+        }
+    }
+
+    private void buildStructureMenu() {
+        Utils.printTitle("Build a new structure");
+        ArrayList<String> options = StructureTypes.listNames(); // This snippet just returns all types of structures in the enum and converts it to a String array.
+        options.add("Back to structures menu");
+        int choice = Utils.choiceList(options.toArray(new String[0]), scanner);
+        if (choice == options.size()) {
+            state = STRUCTURE_MENU;
+            return;
+        }
+        StructureTypes type = StructureTypes.listTypes().get(choice - 1);
+        Structure structure = StructureFactory.createStructure(type);
+        Utils.printTitle(structure.getName() + " - Cost: " + structure.getCost()[0] + " wood | " + structure.getCost()[1] + " stone | " + structure.getCost()[2] + " metal");
+        System.out.println(structure.getStructureInfo(false));
+        System.out.println("\nDo you want to build this structure? (y/n)");
+        String answer = scanner.nextLine();
+        if (answer.equalsIgnoreCase("y")) {
+            try {
+                colony.addStructure(structure);
+                logger.info("Structure built: " + structure.getName());
+                Utils.printTitle(structure.getName() + " built!");
+                System.out.println("Press enter to continue...");
+                scanner.nextLine();
+            } catch (NotEnoughResourcesException e) {
+                logger.error("Not enough resources to build structure: " + structure.getName(), e);
+                Utils.printTitle("Not enough resources to build " + structure.getName());
+                System.out.println("Press enter to continue...");
+                scanner.nextLine();
+            }
         }
     }
 
@@ -198,7 +240,7 @@ public class App {
     
     private void gameMenu() {
         Utils.printTitle(colony.getColonyName() + " Colony - Day: " + colony.getCurrDay() +  " - Population: " + colony.getPopulation() + "/" + colony.getMaxPopulation());
-        System.out.println("\nWood: " + colony.getWood() + " | Food: " + colony.getFood() + " | Stone: " + colony.getStone() + " | Metal: " + colony.getMetal() + "\n");
+        System.out.println("Wood: " + colony.getWood() + " | Food: " + colony.getFood() + " | Stone: " + colony.getStone() + " | Metal: " + colony.getMetal() + "\n");
         String[] options = {
             "Next day",
             "Settlers",
@@ -250,7 +292,7 @@ public class App {
                 System.out.println(settler.getSettlerInfo(false));
             } 
         }
-        System.out.println("\nOverall happiness: " + colony.updateOverallHappiness());
+        System.out.println("\nOverall happiness: " + (int) colony.updateOverallHappiness() + "%");
         System.out.println("\nPress enter to continue...");
         scanner.nextLine();
     }

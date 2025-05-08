@@ -11,10 +11,10 @@ import tps.tp4.settlers.Settler;
 public class Colony {
 
     private static final int MAX_INITIAL_POPULATION = 3;
-    private static final int MAX_INITIAL_WOOD = 10;
-    private static final int MAX_INITIAL_FOOD = 10;
-    private static final int MAX_INITIAL_STONE = 0;
-    private static final int MAX_INITIAL_METAL = 0;
+    private static final int MAX_INITIAL_WOOD = 500;
+    private static final int MAX_INITIAL_FOOD = 500;
+    private static final int MAX_INITIAL_STONE = 500;
+    private static final int MAX_INITIAL_METAL = 500;
     private static final int MAX_INITIAL_ENTERTAINMENT = 0;
 
     private App app;
@@ -111,11 +111,7 @@ public class Colony {
             stone -= structure.getCost()[1];
             metal -= structure.getCost()[2];
 
-            woodProduction += structure.getWoodProduction();
-            foodProduction += structure.getFoodProduction();
-            stoneProduction += structure.getStoneProduction();
-            metalProduction += structure.getMetalProduction();
-            entertainment += structure.getEntertainment();
+            structure.impact(this);
         } else {
             NotEnoughResourcesException e = new NotEnoughResourcesException(structure);
             app.getLogger().error(e.getMessage(), e);

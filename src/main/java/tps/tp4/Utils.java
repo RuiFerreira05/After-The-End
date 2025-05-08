@@ -4,14 +4,11 @@ import java.util.Scanner;
 
 public class Utils {
     public static void printTitle(String title) {
-        int size = title.length() + 4;
+        int size = Math.max(title.length() + 4, 41);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < size; i++) {
-            sb.append("=");
-        }
-        System.out.println();
-        System.out.println(sb.toString());
-        System.out.println("  " + title + "  ");
+        sb.append("=".repeat(size)).append("\n")
+            .append(" ".repeat(size / 2 - title.length() / 2)).append(title).append("\n")
+            .append("=".repeat(size)).append("\n");
         System.out.println(sb.toString());
     }
 
@@ -22,7 +19,7 @@ public class Utils {
                 System.out.println((i + 1) + ". " + option);
                 i++;
             }
-            System.out.println("Choose an option: \n");
+            System.out.println("\nChoose an option:\n");
             System.out.print(">> ");
             try {
                 int choice = scanner.nextInt();
