@@ -10,13 +10,6 @@ import tps.tp4.settlers.Settler;
 
 public class Colony {
 
-    private static final int MAX_INITIAL_POPULATION = 3;
-    private static final int MAX_INITIAL_WOOD = 500;
-    private static final int MAX_INITIAL_FOOD = 500;
-    private static final int MAX_INITIAL_STONE = 500;
-    private static final int MAX_INITIAL_METAL = 500;
-    private static final int MAX_INITIAL_ENTERTAINMENT = 0;
-
     private App app;
     private String colonyName;
     private int wood;
@@ -28,7 +21,6 @@ public class Colony {
     private int foodProduction;
     private int stoneProduction;
     private int metalProduction;
-    private int[] resources;
     private int population;
     private int maxPopulation;
     private double overAllHappiness;
@@ -41,17 +33,16 @@ public class Colony {
         this.settlers = new ArrayList<>();
         this.structures = new ArrayList<>();
         this.colonyName = colonyName;
-        this.wood = MAX_INITIAL_WOOD;
-        this.food = MAX_INITIAL_FOOD;
-        this.stone = MAX_INITIAL_STONE;
-        this.metal = MAX_INITIAL_METAL;
-        this.entertainment = MAX_INITIAL_ENTERTAINMENT;
-        this.woodProduction = 0;
-        this.foodProduction = 0;
-        this.stoneProduction = 0;
-        this.metalProduction = 0;
-        this.resources = new int[] {wood, food, stone, metal};
-        this.maxPopulation = MAX_INITIAL_POPULATION;
+        this.wood = Settings.INITIAL_WOOD;
+        this.food = Settings.INITIAL_FOOD;
+        this.stone = Settings.INITIAL_STONE;
+        this.metal = Settings.INITIAL_METAL;
+        this.entertainment = Settings.INITIAL_ENTERTAINMENT;
+        this.woodProduction = Settings.INITIAL_WOOD_PRODUCTION;
+        this.foodProduction = Settings.INITIAL_FOOD_PRODUCTION;
+        this.stoneProduction = Settings.INITIAL_STONE_PRODUCTION;
+        this.metalProduction = Settings.INITIAL_METAL_PRODUCTION;
+        this.maxPopulation = Settings.INITIAL_MAX_POPULATION;
         this.population = settlers.size();
         updateOverallHappiness();
         this.currDay = 1;
@@ -140,16 +131,32 @@ public class Colony {
         return woodProduction;
     }
 
+    public void setWoodProduction(int woodProduction) {
+        this.woodProduction = woodProduction;
+    }
+
     public int getFoodProduction() {
         return foodProduction;
+    }
+
+    public void setFoodProduction(int foodProduction) {
+        this.foodProduction = foodProduction;
     }
 
     public int getStoneProduction() {
         return stoneProduction;
     }
 
+    public void setStoneProduction(int stoneProduction) {
+        this.stoneProduction = stoneProduction;
+    }
+
     public int getMetalProduction() {
         return metalProduction;
+    }
+
+    public void setMetalProduction(int metalProduction) {
+        this.metalProduction = metalProduction;
     }
 
     public String getColonyName() {
@@ -198,10 +205,6 @@ public class Colony {
 
     public void setEntertainment(int entertainment) {
         this.entertainment = entertainment;
-    }
-
-    public int[] getResources() {
-        return resources;
     }
 
     public int getPopulation() {

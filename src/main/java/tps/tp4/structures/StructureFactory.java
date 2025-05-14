@@ -6,8 +6,8 @@ public class StructureFactory {
         switch (type) {
             case HOUSE:
                 return new House();
-            // case FARM:
-            //     return new Farm();
+            case FARM:
+                return new Farm();
             // case FACTORY:
             //     return new Factory();
             // case HOSPITAL:
