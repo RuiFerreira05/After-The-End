@@ -6,21 +6,19 @@ public abstract class Structure {
     
     protected String name;
     protected int[] cost;
-    protected int entertainment;
-    protected int woodProduction;
-    protected int foodProduction;
-    protected int stoneProduction;
-    protected int metalProduction;
+    protected int[] production;
     protected String description;
 
     public Structure(String name, int[] cost, int entertainment, int woodProduction, int foodProduction, int stoneProduction, int metalProduction) {
         this.name = name;
         this.cost = cost;
-        this.woodProduction = woodProduction;
-        this.foodProduction = foodProduction;
-        this.stoneProduction = stoneProduction;
-        this.metalProduction = metalProduction;
-        this.entertainment = entertainment;
+        this.production = new int[]{
+            woodProduction, 
+            foodProduction, 
+            stoneProduction, 
+            metalProduction,
+            entertainment
+        };
         this.description = null;
     }
 
@@ -29,21 +27,21 @@ public abstract class Structure {
     }
 
     public void impact(Colony colony) {
-        colony.setWoodProduction(woodProduction + colony.getWoodProduction());
-        colony.setFoodProduction(foodProduction + colony.getFoodProduction());
-        colony.setStoneProduction(stoneProduction + colony.getStoneProduction());
-        colony.setMetalProduction(metalProduction + colony.getMetalProduction());
-        colony.setEntertainment(entertainment + colony.getEntertainment());
+        colony.setWoodProduction(production[0] + colony.getWoodProduction());
+        colony.setFoodProduction(production[1] + colony.getFoodProduction());
+        colony.setStoneProduction(production[2] + colony.getStoneProduction());
+        colony.setMetalProduction(production[3] + colony.getMetalProduction());
+        colony.setEntertainment(production[4] + colony.getEntertainment());
     }
 
     public String getStructureInfo(boolean detailed) {
         if (!detailed) {
-            return name + " - Production /day: " + this.woodProduction + " wood, " + this.foodProduction + " food, " + this.stoneProduction + " stone, " + this.metalProduction + " metal"
+            return name + " - Production /day: " + production[0] + " wood, " + production[1] + " food, " + production[2] + " stone, " + production[3] + " metal"
                     + "\n\n" + this.description + "\n";
         } else {
             return name + " - Cost: " + cost[0] + " wood, " + cost[1] + " stone, " + cost[2] + " metal" +
-                    "\nProduction /day: " + this.woodProduction + " wood, " + this.foodProduction + " food, " + this.stoneProduction + " stone, " + this.metalProduction + " metal" +
-                    "\nEntertainment: " + this.entertainment + "\n\n" + this.description + "\n";
+                    "\nProduction /day: " + production[0] + " wood, " + production[1] + " food, " + production[2] + " stone, " + production[3] + " metal" +
+                    "\nEntertainment: " + production[4] + "\n\n" + this.description + "\n";
         }
     }
 
@@ -54,25 +52,25 @@ public abstract class Structure {
     public int[] getCost() {
         return cost;
     }
-
-    public int getEntertainment() {
-        return entertainment;
-    }
-
+    
     public int getWoodProduction() {
-        return woodProduction;
+        return production[0];
     }
-
+    
     public int getFoodProduction() {
-        return foodProduction;
+        return production[1];
     }
-
+    
     public int getStoneProduction() {
-        return stoneProduction;
+        return production[2];
     }
-
+    
     public int getMetalProduction() {
-        return metalProduction;
+        return production[3];
+    }
+    
+    public int getEntertainment() {
+        return production[4];
     }
 
     public String getDescription() {
