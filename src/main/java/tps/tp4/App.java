@@ -1,5 +1,8 @@
 package tps.tp4;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -30,28 +33,32 @@ import org.apache.logging.log4j.Logger;
 
 public class App {
 
-    private final String SAVEPATH = "saves/";
-    private final int MAX_SAVES = 5;
-    private final int MAIN_MENU = 0;
-    private final int GAME_MENU = 1;
-    private final int SETTLER_MENU = 2;
-    private final int STRUCTURE_MENU = 3;
-    private final int EVENT_MENU = 4;
-    private final int BUILD_STRUCTURE_MENU = 5;
-    private final int EXIT = 6;
+    private static final String SAVEPATH = "saves/";
+    private static final int MAX_SAVES = 5;
+    private static final int LOAD_SAVES = 0;
+    private static final int MAIN_MENU = 1;
+    private static final int GAME_MENU = 2;
+    private static final int SETTLER_MENU = 3;
+    private static final int STRUCTURE_MENU = 4;
+    private static final int EVENT_MENU = 5;
+    private static final int BUILD_STRUCTURE_MENU = 6;
+    private static final int EXIT = 7;
+
+    private static final int INITIAL_STATE = MAIN_MENU;
     
     private Colony colony;
-    private List<String> saveFiles;
+    private List<File> saveFiles;
     private Scanner scanner = new Scanner(System.in);
     private int state;
     private boolean debug;
     protected Logger logger;
+
     
     public App(boolean debug) {
         this.colony = null;
-        this.saveFiles = new ArrayList<String>();
+        this.saveFiles = new ArrayList<File>();
         this.scanner = new Scanner(System.in);
-        this.state = MAIN_MENU;
+        this.state = INITIAL_STATE;
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -68,13 +75,21 @@ public class App {
     }
 
     private void loadSaves() {
-        // TODO
+        File[] saves = new File(SAVEPATH).listFiles();
+        if (saves != null) {
+            for (File save : saves) {
+                if (save.isFile() && save.getName().endsWith(".save")) {
+                    saveFiles.add(save);
+                }
+            }
+        }
     }
 
     public void start() {
         loadSaves();
         while (true) {
             switch (state) {
+    
                 case MAIN_MENU:
                     mainMenu();
                     break;
@@ -245,8 +260,71 @@ public class App {
         state = GAME_MENU;
     }
 
+    /*
+     * private Zoo parseLastSession(File oldFile) {
+        try {
+            FileInputStream fis = new FileInputStream(oldFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Zoo zoo = (Zoo) ois.readObject();
+            ois.close();
+            fis.close();
+            return zoo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+    }
+     */
     private void loadGame() {
-        // TODO
+        if (!saveFiles.isEmpty()) {
+            Utils.printTitle("Save Files");
+            String[] options = new String[saveFiles.size() + 2];
+            for (int i = 0; i < saveFiles.size(); i++) {
+                options[i] = saveFiles.get(i).getName();
+            }
+            options[saveFiles.size() + 1] = "load XML file";
+            options[saveFiles.size() + 2] = "Exit";
+            int choice = Utils.choiceList(options, scanner);
+
+            if (choice == saveFiles.size() + 1) {           // Load XML file
+                // TODO: load XML file
+            } else if (choice == saveFiles.size() + 2) {    // Exit
+                System.exit(0);
+            } else {                                        // Load save file
+                File saveFile = saveFiles.get(choice - 1);
+                try {
+                    parseColony(saveFile);
+                } catch (FileLoadException e) {
+                    logger.error("Error loading save file: " + saveFile.getName(), e);
+                    Utils.printTitle("Error loading save file: " + saveFile.getName());
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    return;
+                }
+                Utils.printTitle("Colony " + colony.getColonyName() + " loaded");
+                System.out.println("Press enter to continue...");
+                scanner.nextLine();
+                state = GAME_MENU;
+            }
+        } else {
+            Utils.printTitle("No save files found.");
+            System.out.println("Press enter to return to main menu...");
+            scanner.nextLine();
+        }
+    }
+
+    private void parseColony(File saveFile) throws FileLoadException {
+        try {
+            FileInputStream fis = new FileInputStream(saveFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            colony = (Colony) ois.readObject();
+            ois.close();
+            fis.close();
+            logger.info("Colony loaded: " + colony.getColonyName());
+        } catch (Exception e) {
+            throw new FileLoadException("Error loading save file: " + saveFile.getName(), e);
+        }
     }
 
     private void saveGame() {
