@@ -35,4 +35,5 @@ public class Settings {
 
     public static final int[] BARRACKS_COST = {200, 100, 0}; // wood, stone, metal
     public static final int[] BARRACKS_PRODUCTION = {0, 0, 0, 0, 0}; // wood, food, stone, metal, entertainment
-}
+    public static final int BARRACKS_WARRIORS_INCREASE = 5; // max warriors increase
+}   

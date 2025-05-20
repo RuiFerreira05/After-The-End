@@ -23,6 +23,8 @@ public class Colony {
     private int metalProduction;
     private int population;
     private int maxPopulation;
+    private int warriors;
+    private int maxWarriors;
     private double overAllHappiness;
     private List<Settler> settlers;
     private List<Structure> structures;
@@ -44,6 +46,8 @@ public class Colony {
         this.metalProduction = Settings.INITIAL_METAL_PRODUCTION;
         this.maxPopulation = Settings.INITIAL_MAX_POPULATION;
         this.population = settlers.size();
+        this.warriors = 0;
+        this.maxWarriors = 1;
         updateOverallHappiness();
         this.currDay = 1;
     }
@@ -217,6 +221,22 @@ public class Colony {
 
     public void setMaxPopulation(int maxPopulation) {
         this.maxPopulation = maxPopulation;
+    }
+
+    public int getWarriors() {
+        return warriors;
+    }
+
+    public void setWarriors(int warriors) {
+        this.warriors = warriors;
+    }
+
+    public int getMaxWarriors() {
+        return maxWarriors;
+    }
+
+    public void setMaxWarriors(int maxWarriors) {
+        this.maxWarriors = maxWarriors;
     }
 
     public double getOverAllHappiness() {
