@@ -13,7 +13,7 @@ public class StructureFactory {
             case HOSPITAL:
                 return new S_Hospital();
             case WOODCUTTER_LODGE:
-                return new S_WoodcutterLodge();
+                return new S_WoodCuttersLodge();
             case MINE:
                 return new S_Mine();
             case BARRACKS:
