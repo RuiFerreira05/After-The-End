@@ -2,7 +2,10 @@ package tps.tp4;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +18,7 @@ import tps.tp4.settlers.Settler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.PropertySource.Util;
 
 /*
  * TODO:
@@ -43,6 +47,8 @@ public class App {
     private static final int EVENT_MENU = 5;
     private static final int BUILD_STRUCTURE_MENU = 6;
     private static final int EXIT = 7;
+    private static final int PLAY_MENU = 8;
+    private static final int NEW_GAME_MENU = 9;
 
     private static final int INITIAL_STATE = MAIN_MENU;
     
@@ -61,6 +67,8 @@ public class App {
         this.state = INITIAL_STATE;
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
+
+        // run the exit method when the program is terminated
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             exit();
         }));
@@ -68,7 +76,12 @@ public class App {
 
     private void exit() {
         if (colony != null) {
-            saveGame();
+            try {
+                saveGame();
+            } catch (Exception e) {
+                logger.error("Error saving game on exit: " + colony.getColonyName(), e);
+                scanner.nextLine();
+            }
         }
         logger.info("Exiting application.");
         scanner.close();
@@ -92,6 +105,14 @@ public class App {
     
                 case MAIN_MENU:
                     mainMenu();
+                    break;
+
+                case PLAY_MENU:
+                    play();
+                    break;
+
+                case NEW_GAME_MENU:
+                    newGame();
                     break;
 
                 case GAME_MENU:
@@ -212,30 +233,122 @@ public class App {
     private void mainMenu() {
         Utils.printTitle("Welcome to After The End!");
         String[] options = {
-            "New game",
-            "Load game",
+            "Play",
             "Exit"
         };
         int choice = Utils.choiceList(options, scanner);
         switch (choice) {
             case 1:
-                newGame();
+                state = PLAY_MENU;
                 break;
             
             case 2:
-                loadGame();
-                break;
-            
-            case 3:
                 System.exit(0);
                 break;
 
-            default: 
+            default:
                 // default case is not needed as the options are sanitized in the choiceList function.
                 // If this triggers, something is very wrong...
                 logger.error("Invalid choice in main menu: " + choice, new InvalidAppStateException(choice));
                 System.exit(1);
-                break; 
+                break;
+        }
+    }
+
+    private void play() {
+        Utils.printTitle("Before The Fall...");
+        String[] options = new String[MAX_SAVES + 3];
+        for (int i = 0; i < saveFiles.size(); i++) {
+            options[i] = saveFiles.get(i).getName().replace(".save", "");
+        }
+        for (int i = saveFiles.size(); i < MAX_SAVES; i++) {
+            options[i] = "Empty save slot";
+        }
+        options[MAX_SAVES] = "delete save file";
+        options[MAX_SAVES + 1] = "load XML file";
+        options[MAX_SAVES + 2] = "Back to main menu";
+        int choice = Utils.choiceList(options, scanner, MAX_SAVES);
+        switch (choice) {
+            case MAX_SAVES + 1: // Delete save file
+                if (saveFiles.isEmpty()) {
+                    Utils.printTitle("No save files to delete.");
+                    break;
+                }
+                System.out.println("Enter the number of the save file to delete: ");
+                int saveIndex = scanner.nextInt();
+                scanner.nextLine();
+                if (saveIndex < 1 || saveIndex > saveFiles.size()) {
+                    Utils.printTitle("Invalid save file number.");
+                    break;
+                }
+                File saveFile = saveFiles.get(saveIndex - 1);
+                saveFile.delete();
+                saveFiles.remove(saveIndex - 1);
+                logger.info("Save file deleted: " + saveFile.getName());
+                Utils.printTitle("Save file deleted");
+                System.out.println("Press enter to continue...");
+                scanner.nextLine();
+                break;
+
+            case MAX_SAVES + 2: // Load XML file
+                Utils.printTitle("Load XML file");
+                if (saveFiles.size() == MAX_SAVES) {
+                    Utils.printTitle("Maximum number of save files reached.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
+                }
+                System.out.println("Enter the name of the XML file to load: ");
+                String xmlFileName = scanner.nextLine();
+                File xmlFile = new File(xmlFileName);
+                if (!xmlFile.exists()) {
+                    Utils.printTitle("File not found: " + xmlFileName);
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
+                } else {
+                    try {
+                        Colony colony = XMLParser.parseColony(xmlFile);
+                        this.colony = colony;
+                        logger.info("Colony loaded from XML file: " + xmlFileName);
+                        Utils.printTitle("Colony loaded successfully from XML file: " + xmlFileName);
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                        state = GAME_MENU;
+                    } catch (Exception e) {
+                        logger.error("Error loading XML file: " + xmlFileName, e);
+                        Utils.printTitle("Error loading XML file: " + xmlFileName);
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                        break;
+                    }
+                }
+                break;
+
+            case MAX_SAVES + 3: // Back to main menu
+                state = MAIN_MENU;
+                break;
+
+            default: // Load save file
+                if (choice <= saveFiles.size()) {
+                    File saveToLoad = saveFiles.get(choice - 1);
+                    try {
+                        parseColony(saveToLoad);
+                    } catch (FileLoadException e) {
+                        logger.error("Error loading save file: " + saveToLoad.getName(), e);
+                        Utils.printTitle("Error loading save file: " + saveToLoad.getName());
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                        return;
+                    }
+                    Utils.printTitle("Colony " + colony.getColonyName() + " loaded");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    state = GAME_MENU;
+                } else { // New game
+                    state = NEW_GAME_MENU;
+                }
+                break;
         }
     }
 
@@ -243,7 +356,7 @@ public class App {
         Utils.printTitle("New game");
         System.out.println("Enter the name of your colony: ");
         String colonyName = scanner.nextLine();
-        Colony colony = new Colony(colonyName, this);
+        Colony colony = new Colony(colonyName);
         logger.info("Colony created: " + colonyName);
         this.colony = colony;
         System.out.println("Enter the name of your first settler: ");
@@ -260,60 +373,6 @@ public class App {
         state = GAME_MENU;
     }
 
-    /*
-     * private Zoo parseLastSession(File oldFile) {
-        try {
-            FileInputStream fis = new FileInputStream(oldFile);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Zoo zoo = (Zoo) ois.readObject();
-            ois.close();
-            fis.close();
-            return zoo;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        
-    }
-     */
-    private void loadGame() {
-        if (!saveFiles.isEmpty()) {
-            Utils.printTitle("Save Files");
-            String[] options = new String[saveFiles.size() + 2];
-            for (int i = 0; i < saveFiles.size(); i++) {
-                options[i] = saveFiles.get(i).getName();
-            }
-            options[saveFiles.size() + 1] = "load XML file";
-            options[saveFiles.size() + 2] = "Exit";
-            int choice = Utils.choiceList(options, scanner);
-
-            if (choice == saveFiles.size() + 1) {           // Load XML file
-                // TODO: load XML file
-            } else if (choice == saveFiles.size() + 2) {    // Exit
-                System.exit(0);
-            } else {                                        // Load save file
-                File saveFile = saveFiles.get(choice - 1);
-                try {
-                    parseColony(saveFile);
-                } catch (FileLoadException e) {
-                    logger.error("Error loading save file: " + saveFile.getName(), e);
-                    Utils.printTitle("Error loading save file: " + saveFile.getName());
-                    System.out.println("Press enter to continue...");
-                    scanner.nextLine();
-                    return;
-                }
-                Utils.printTitle("Colony " + colony.getColonyName() + " loaded");
-                System.out.println("Press enter to continue...");
-                scanner.nextLine();
-                state = GAME_MENU;
-            }
-        } else {
-            Utils.printTitle("No save files found.");
-            System.out.println("Press enter to return to main menu...");
-            scanner.nextLine();
-        }
-    }
-
     private void parseColony(File saveFile) throws FileLoadException {
         try {
             FileInputStream fis = new FileInputStream(saveFile);
@@ -327,8 +386,19 @@ public class App {
         }
     }
 
-    private void saveGame() {
-        // TODO
+    private void saveGame() throws FileSaveException {
+        File saveFile = new File(SAVEPATH + colony.getColonyName() + ".save");
+        if (!saveFile.getParentFile().exists()) {
+            saveFile.getParentFile().mkdirs();
+        }
+        try {
+            saveFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(saveFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(colony);
+        } catch (Exception e) {
+            throw new FileSaveException("Error saving game: " + colony.getColonyName(), e);
+        }
     }
     
     private void gameMenu() {
@@ -339,9 +409,10 @@ public class App {
             "Settlers",
             "Structures",
             "Save game",
+            "back to main menu",
             "Exit"
         };
-        int choice = Utils.choiceList(options, scanner);
+        int choice = Utils.choiceList(options, scanner, 3);
         switch (choice) {
             case 1:
                 nextDay();
@@ -356,10 +427,39 @@ public class App {
                 break;
             
             case 4:
-                saveGame();
+                try {
+                    saveGame();
+                    Utils.printTitle("Game saved!");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                } catch (Exception e) {
+                    logger.error("Error saving game: " + colony.getColonyName(), e);
+                    Utils.printTitle("Error saving game: " + colony.getColonyName());
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                }
                 break;
 
             case 5:
+                try {
+                    saveGame();
+                    state = MAIN_MENU;
+                } catch (FileSaveException e) {
+                    logger.error("Error saving game: " + colony.getColonyName(), e);
+                    Utils.printTitle("Error saving game: " + colony.getColonyName());
+                    System.out.println("Do you still wish to continue? (y/n)");
+                    String answer = scanner.nextLine();
+                    if (answer.equalsIgnoreCase("y")) {
+                        state = MAIN_MENU;
+                        break;
+                    } else {
+                        state = GAME_MENU;
+                        break;
+                    }
+                }
+                break;
+
+            case 6:
                 System.exit(0);
                 break;
 

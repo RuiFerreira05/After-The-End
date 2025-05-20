@@ -1,12 +1,13 @@
 package tps.tp4.settlers;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
 import tps.tp4.Colony;
 import tps.tp4.Job;
 
-public class Settler {
+public class Settler implements Serializable{
 
     private String name;
     private int age;

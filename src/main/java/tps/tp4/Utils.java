@@ -1,5 +1,7 @@
 package tps.tp4;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Utils {
@@ -12,12 +14,17 @@ public class Utils {
         System.out.println(sb.toString());
     }
 
-    public static int choiceList(String[] options, Scanner scanner) {
+    public static int choiceList(String[] options, Scanner scanner, int[] separators) {
+        List<Integer> separatorList = new ArrayList<>();
+        for (int separator : separators) {
+            separatorList.add(separator);
+        }
         while (true) {
-            int i = 0;
-            for (String option : options) {
-                System.out.println((i + 1) + ". " + option);
-                i++;
+            for (int i = 0; i < options.length; i++) {
+                if (separatorList.contains(i)) {
+                    System.out.println();
+                }
+                System.out.println((i + 1) + ". " + options[i]);
             }
             System.out.println("\nChoose an option:\n");
             System.out.print(">> ");
@@ -35,5 +42,13 @@ public class Utils {
                 continue;
             } 
         }
+    }
+
+    public static int choiceList(String[] options, Scanner scanner, int separator) {
+        return choiceList(options, scanner, new int[] {separator});
+    }
+
+    public static int choiceList(String[] options, Scanner scanner) {
+        return choiceList(options, scanner, -1);
     }
 }

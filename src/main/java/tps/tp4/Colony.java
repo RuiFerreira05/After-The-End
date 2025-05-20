@@ -1,5 +1,6 @@
 package tps.tp4;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,8 @@ import tps.tp4.errors.NotEnoughResourcesException;
 import tps.tp4.errors.PopulationLimitException;
 import tps.tp4.settlers.Settler;
 
-public class Colony {
+public class Colony implements Serializable {
 
-    private App app;
     private String colonyName;
     private int wood;
     private int food;
@@ -30,8 +30,7 @@ public class Colony {
     private List<Structure> structures;
     private int currDay;
 
-    public Colony(String colonyName, App app) {
-        this.app = app;
+    public Colony(String colonyName) {
         this.settlers = new ArrayList<>();
         this.structures = new ArrayList<>();
         this.colonyName = colonyName;
@@ -87,9 +86,7 @@ public class Colony {
             population++;
             updateOverallHappiness();
         } else {
-            PopulationLimitException e = new PopulationLimitException();
-            app.getLogger().error(e.getMessage(), e);
-            throw e;
+            throw new PopulationLimitException();
         }
     }
 
@@ -108,9 +105,7 @@ public class Colony {
 
             structure.impact(this);
         } else {
-            NotEnoughResourcesException e = new NotEnoughResourcesException(structure);
-            app.getLogger().error(e.getMessage(), e);
-            throw e;
+            throw new NotEnoughResourcesException(structure);
         }
     }
 

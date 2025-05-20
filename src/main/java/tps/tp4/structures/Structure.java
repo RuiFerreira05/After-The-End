@@ -1,8 +1,10 @@
 package tps.tp4.structures;
 
+import java.io.Serializable;
+
 import tps.tp4.Colony;
 
-public abstract class Structure {
+public abstract class Structure implements Serializable{
     
     protected String name;
     protected int[] cost;
