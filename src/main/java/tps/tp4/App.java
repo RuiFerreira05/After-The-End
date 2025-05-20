@@ -13,6 +13,21 @@ import tps.tp4.settlers.Settler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/*
+ * TODO:
+ * 
+ * - Events
+ * 
+ * - Save and load game
+ *   \ multiple saves
+ * 
+ * - Settler options
+ *   \ hunt, gather, assign to building(?), set as warrior
+ * 
+ * - Structure options
+ *   \ destroy, assign settler(?) 
+ */
+
 public class App {
 
     private final String SAVEPATH = "saves/";
