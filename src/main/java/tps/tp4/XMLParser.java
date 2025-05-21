@@ -9,16 +9,16 @@ import org.w3c.dom.Document;
 
 public class XMLParser {
     
-    public static Colony parseColony(File xmlFile) {
-        try {
-            DocumentBuilderFactory DBFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = DBFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+    // public static Colony parseColony(File xmlFile) {
+    //     try {
+    //         DocumentBuilderFactory DBFactory = DocumentBuilderFactory.newInstance();
+    //         DocumentBuilder dBuilder = DBFactory.newDocumentBuilder();
+    //         Document doc = dBuilder.parse(xmlFile);
 
-            // TODO: Parse the XML document and create a Colony object
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
+    //         // TODO: Parse the XML document and create a Colony object
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+    // }
 
 }
