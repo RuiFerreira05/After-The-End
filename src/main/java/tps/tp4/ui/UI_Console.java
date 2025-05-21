@@ -42,7 +42,6 @@ public class UI_Console implements UI {
     }
 
     public void start() {
-        app.loadSaves();
         while (true) {
             switch (state) {
     
@@ -98,6 +97,7 @@ public class UI_Console implements UI {
     private void nextDay() {
         // TODO: For now, just skip the day
         app.nextDay();
+        state = GAME_MENU;
     }
     
     private void structureMenu() {

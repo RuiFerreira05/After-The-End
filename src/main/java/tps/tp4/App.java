@@ -49,6 +49,7 @@ public class App {
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
         this.ui = new UI_Console(this);
+        loadSaves();
 
         // run the exit method when the program is terminated
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
