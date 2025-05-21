@@ -7,6 +7,7 @@ import java.util.List;
 import tps.tp4.structures.Structure;
 import tps.tp4.errors.NotEnoughResourcesException;
 import tps.tp4.errors.PopulationLimitException;
+import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
 
 public class Colony implements Serializable {

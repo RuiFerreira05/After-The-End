@@ -1,4 +1,4 @@
-package tps.tp4;
+package tps.tp4.settings;
 
 public class Settings {
     

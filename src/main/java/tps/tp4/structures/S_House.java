@@ -1,7 +1,7 @@
 package tps.tp4.structures;
 
 import tps.tp4.Colony;
-import tps.tp4.Settings;
+import tps.tp4.settings.Settings;
 
 public class S_House extends Structure {
     private static final int[] COST = Settings.HOUSE_COST; // wood, stone, metal

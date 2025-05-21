@@ -1,6 +1,6 @@
 package tps.tp4.structures;
 
-import tps.tp4.Settings;
+import tps.tp4.settings.Settings;
 
 public class S_Farm extends Structure {
     
