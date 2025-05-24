@@ -1,0 +1,55 @@
+<!ELEMENT settings (
+    initial,
+    building+
+)>
+
+<!ELEMENT initial (
+    maxPopulation,
+    wood,
+    food,
+    stone,
+    metal,
+    entertainment,
+    woodProduction,
+    foodProduction,
+    stoneProduction,
+    metalProduction
+)>
+
+<!ELEMENT maxPopulation (#PCDATA)>
+<!ELEMENT wood (#PCDATA)>
+<!ELEMENT food (#PCDATA)>
+<!ELEMENT stone (#PCDATA)>
+<!ELEMENT metal (#PCDATA)>
+<!ELEMENT entertainment (#PCDATA)>
+<!ELEMENT woodProduction (#PCDATA)>
+<!ELEMENT foodProduction (#PCDATA)>
+<!ELEMENT stoneProduction (#PCDATA)>
+<!ELEMENT metalProduction (#PCDATA)>
+
+<!ELEMENT building (
+    cost,
+    production,
+    populationIncrease?,
+    warriorsIncrease?
+)>
+<!ATTLIST building name CDATA #REQUIRED>
+
+<!ELEMENT cost EMPTY>
+<!ATTLIST cost
+    wood CDATA #REQUIRED
+    stone CDATA #REQUIRED
+    metal CDATA #REQUIRED
+>
+
+<!ELEMENT production EMPTY>
+<!ATTLIST production
+    wood CDATA #REQUIRED
+    food CDATA #REQUIRED
+    stone CDATA #REQUIRED
+    metal CDATA #REQUIRED
+    entertainment CDATA #REQUIRED
+>
+
+<!ELEMENT populationIncrease (#PCDATA)>
+<!ELEMENT warriorsIncrease (#PCDATA)>
