@@ -1,39 +1,47 @@
 package tps.tp4.settings;
 
+import java.io.File;
+
 public class Settings {
+
+    public static final String VALIDATION_PATH = "./settings.dtd";
     
-    public static final int INITIAL_MAX_POPULATION = 10;
-    public static final int INITIAL_WOOD = 500;
-    public static final int INITIAL_FOOD = 500;
-    public static final int INITIAL_STONE = 500;
-    public static final int INITIAL_METAL = 500;
-    public static final int INITIAL_ENTERTAINMENT = 0;
+    public static int INITIAL_MAX_POPULATION;
+    public static int INITIAL_WOOD;
+    public static int INITIAL_FOOD;
+    public static int INITIAL_STONE;
+    public static int INITIAL_METAL;
+    public static int INITIAL_ENTERTAINMENT;
 
-    public static final int INITIAL_WOOD_PRODUCTION = 0;
-    public static final int INITIAL_FOOD_PRODUCTION = 0;
-    public static final int INITIAL_STONE_PRODUCTION = 0;
-    public static final int INITIAL_METAL_PRODUCTION = 0;
+    public static int INITIAL_WOOD_PRODUCTION;
+    public static int INITIAL_FOOD_PRODUCTION;
+    public static int INITIAL_STONE_PRODUCTION;
+    public static int INITIAL_METAL_PRODUCTION;
 
-    public static final int[] HOUSE_COST = {100, 10, 0}; // wood, stone, metal
-    public static final int[] HOUSE_PRODUCTION = {0, 0, 0, 0, 0}; // wood, food, stone, metal, entertainments
-    public static final int HOUSE_POPULATION_INCREASE = 3;
+    public static int[] HOUSE_COST;
+    public static int[] HOUSE_PRODUCTION;
+    public static int HOUSE_POPULATION_INCREASE;
 
-    public static final int[] FARM_COST = {50, 0, 0}; // wood, stone, metal
-    public static final int[] FARM_PRODUCTION = {0, 1, 0, 0, 0}; // wood, food, stone, metal, entertainment
+    public static int[] FARM_COST;
+    public static int[] FARM_PRODUCTION;
 
-    public static final int[] FACTORY_COST = {200, 50, 0}; // wood, stone, metal
-    public static final int[] FACTORY_PRODUCTION = {0, 0, 0, 1, 0}; // wood, food, stone, metal, entertainment
+    public static int[] FACTORY_COST;
+    public static int[] FACTORY_PRODUCTION;
     
-    public static final int[] HOSPITAL_COST = {100, 50, 0}; // wood, stone, metal
-    public static final int[] HOSPITAL_PRODUCTION = {0, 0, 0, 0, 0}; // wood, food, stone, metal, entertainment
+    public static int[] HOSPITAL_COST;
+    public static int[] HOSPITAL_PRODUCTION;
 
-    public static final int[] WOODCUTTER_LODGE_COST = {50, 0, 0}; // wood, stone, metal
-    public static final int[] WOODCUTTER_LODGE_PRODUCTION = {1, 0, 0, 0, 0}; // wood, food, stone, metal, entertainment
+    public static int[] WOODCUTTER_LODGE_COST;
+    public static int[] WOODCUTTER_LODGE_PRODUCTION;
 
-    public static final int[] MINE_COST = {100, 0, 0}; // wood, stone, metal
-    public static final int[] MINE_PRODUCTION = {0, 0, 1, 0, 0}; // wood, food, stone, metal, entertainment
+    public static int[] MINE_COST;
+    public static int[] MINE_PRODUCTION;
 
-    public static final int[] BARRACKS_COST = {200, 100, 0}; // wood, stone, metal
-    public static final int[] BARRACKS_PRODUCTION = {0, 0, 0, 0, 0}; // wood, food, stone, metal, entertainment
-    public static final int BARRACKS_WARRIORS_INCREASE = 5; // max warriors increase
-}   
+    public static int[] BARRACKS_COST;
+    public static int[] BARRACKS_PRODUCTION;
+    public static int BARRACKS_WARRIORS_INCREASE;
+
+    public static void loadXMLSettings(File file) {
+
+    }
+}
