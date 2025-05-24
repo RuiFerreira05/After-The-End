@@ -1,10 +1,9 @@
 package tps.tp4.settings;
 
-import java.io.File;
-
 public class Settings {
 
-    public static final String VALIDATION_PATH = "./settings.dtd";
+    public static final String DEFAULT_SETTINGS_FILE = "src/main/java/tps/tp4/settings/default_settings.xml";
+    public static final String USER_SETTINGS_FILE = "src/main/java/tps/tp4/settings/user_settings.xml";    
     
     public static int INITIAL_MAX_POPULATION;
     public static int INITIAL_WOOD;
@@ -41,7 +40,32 @@ public class Settings {
     public static int[] BARRACKS_PRODUCTION;
     public static int BARRACKS_WARRIORS_INCREASE;
 
-    public static void loadXMLSettings(File file) {
-
+    public static void debug() {
+        System.out.println(INITIAL_MAX_POPULATION);
+        System.out.println(INITIAL_WOOD);
+        System.out.println(INITIAL_FOOD);
+        System.out.println(INITIAL_STONE);
+        System.out.println(INITIAL_METAL);
+        System.out.println(INITIAL_ENTERTAINMENT);
+        System.out.println(INITIAL_WOOD_PRODUCTION);
+        System.out.println(INITIAL_FOOD_PRODUCTION);
+        System.out.println(INITIAL_STONE_PRODUCTION);
+        System.out.println(INITIAL_METAL_PRODUCTION);
+        System.out.println("House Cost: " + java.util.Arrays.toString(HOUSE_COST));
+        System.out.println("House Production: " + java.util.Arrays.toString(HOUSE_PRODUCTION));
+        System.out.println("House Population Increase: " + HOUSE_POPULATION_INCREASE);
+        System.out.println("Farm Cost: " + java.util.Arrays.toString(FARM_COST));
+        System.out.println("Farm Production: " + java.util.Arrays.toString(FARM_PRODUCTION));
+        System.out.println("Factory Cost: " + java.util.Arrays.toString(FACTORY_COST));
+        System.out.println("Factory Production: " + java.util.Arrays.toString(FACTORY_PRODUCTION));
+        System.out.println("Hospital Cost: " + java.util.Arrays.toString(HOSPITAL_COST));
+        System.out.println("Hospital Production: " + java.util.Arrays.toString(HOSPITAL_PRODUCTION));
+        System.out.println("Woodcutter Lodge Cost: " + java.util.Arrays.toString(WOODCUTTER_LODGE_COST));
+        System.out.println("Woodcutter Lodge Production: " + java.util.Arrays.toString(WOODCUTTER_LODGE_PRODUCTION));
+        System.out.println("Mine Cost: " + java.util.Arrays.toString(MINE_COST));
+        System.out.println("Mine Production: " + java.util.Arrays.toString(MINE_PRODUCTION));
+        System.out.println("Barracks Cost: " + java.util.Arrays.toString(BARRACKS_COST));
+        System.out.println("Barracks Production: " + java.util.Arrays.toString(BARRACKS_PRODUCTION));
+        System.out.println("Barracks Warriors Increase: " + BARRACKS_WARRIORS_INCREASE);
     }
 }

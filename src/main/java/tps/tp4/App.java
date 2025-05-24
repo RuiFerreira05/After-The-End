@@ -50,11 +50,25 @@ public class App {
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
         this.ui = new UI_Console(this);
         loadSaves();
+        loadSettings();
 
         // run the exit method when the program is terminated
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             exit();
         }));
+    }
+
+    private void loadSettings() {
+        File settingsFile = new File("src/main/java/tps/tp4/settings/user_settings.xml");
+        if (!settingsFile.exists()) {
+            settingsFile = new File("src/main/java/tps/tp4/settings/default_settings.xml");
+        }
+        try {
+            XMLParser.loadXMLSettings(settingsFile);
+            logger.info("Settings loaded from: " + settingsFile.getAbsolutePath());
+        } catch (Exception e) {
+            logger.error("Error loading settings from file: " + settingsFile.getAbsolutePath(), e);
+        }
     }
 
     private void exit() {

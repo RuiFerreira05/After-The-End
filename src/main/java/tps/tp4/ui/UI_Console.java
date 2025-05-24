@@ -11,7 +11,9 @@ import tps.tp4.ui.UI_Console;
 import tps.tp4.App;
 import tps.tp4.Colony;
 import tps.tp4.Utils;
+import tps.tp4.XMLParser;
 import tps.tp4.errors.*;
+import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
 
 public class UI_Console implements UI {
@@ -26,6 +28,7 @@ public class UI_Console implements UI {
     private static final int PLAY_MENU = 8;
     private static final int NEW_GAME_MENU = 9;
     private static final int NEXT_DAY_MENU = 10;
+    private static final int SETTINGS_MENU = 11; 
     
     private static final int INITIAL_STATE = MAIN_MENU;
     
@@ -82,6 +85,10 @@ public class UI_Console implements UI {
                     // TODO
                     break;
 
+                case SETTINGS_MENU:
+                    settingsMenu();
+                    break;
+
                 case EXIT:
                     System.exit(0);
                     break;
@@ -91,6 +98,68 @@ public class UI_Console implements UI {
                     System.exit(1);
                     break;
             }
+        }
+    }
+
+    private void settingsMenu() {
+        Utils.printTitle("Settings");
+        Settings.debug(); // Print current settings for debugging purposes
+        String[] options = {
+            "Load settings from XML file",
+            "write settings to XML file",
+            "restore default settings",
+            "Back to main menu"
+        };
+        int choice = Utils.choiceList(options, scanner);
+        switch (choice) {
+
+            case 1:
+                System.out.println("Enter the path to the XML file: ");
+                String xmlPath = scanner.nextLine();
+                try {
+                    XMLParser.loadXMLSettings(new File(xmlPath));
+                    Utils.printTitle("Settings loaded from " + xmlPath);
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Utils.printTitle("Error loading settings from " + xmlPath);
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                }
+                break;
+
+            case 2:
+                System.out.println("Enter the path to write to: ");
+                String path = scanner.nextLine();
+                try {
+                    XMLParser.writeXMLSettings(path);
+                    Utils.printTitle("Settings written to " + path);
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                } catch (Exception e) {
+                    Utils.printTitle("Error writing settings to " + path);
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                }
+                break;
+
+            case 3:
+                try {
+                    XMLParser.loadXMLSettings(new File(Settings.DEFAULT_SETTINGS_FILE));
+                    Utils.printTitle("Default settings loaded");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                } catch (Exception e) {
+                    Utils.printTitle("Error loading default settings");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                }
+                break;
+
+            case 4:
+                state = MAIN_MENU;
+                break;
         }
     }
 
@@ -174,6 +243,7 @@ public class UI_Console implements UI {
         Utils.printTitle("Welcome to After The End!");
         String[] options = {
             "Play",
+            "Settings",
             "Exit"
         };
         int choice = Utils.choiceList(options, scanner);
@@ -181,8 +251,12 @@ public class UI_Console implements UI {
             case 1:
                 state = PLAY_MENU;
                 break;
-            
+
             case 2:
+                state = SETTINGS_MENU;
+                break;
+            
+            case 3:
                 System.exit(0);
                 break;
         }
