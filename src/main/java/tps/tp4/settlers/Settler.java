@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import tps.tp4.Colony;
-import tps.tp4.Job;
 
 public class Settler implements Serializable{
 
@@ -17,8 +16,6 @@ public class Settler implements Serializable{
     private double entertainmentImpact;
     private double foodImpact;
     private double healthImpact;
-    private double workImpact;
-    private Job assignedJob;
 
     public boolean healthWarning;
     public boolean happinessWarning;
@@ -31,7 +28,6 @@ public class Settler implements Serializable{
         this.happiness = r.nextDouble() * 50 + 50; // Initial happiness between 50-100
         this.colony = colony;
         calcImpacts(r);
-        this.assignedJob = null;
         this.healthWarning = false;
         this.happinessWarning = false;
     }
@@ -42,15 +38,13 @@ public class Settler implements Serializable{
      * @param r the random number generator used to create the impacts
      */
     private void calcImpacts(Random r) {
-        double[] aux = new double[3];
+        double[] aux = new double[2];
         aux[0] = r.nextDouble();
         aux[1] = r.nextDouble();
-        aux[2] = r.nextDouble();
         Arrays.sort(aux);
         this.entertainmentImpact = aux[0];
         this.foodImpact = aux[1] - aux[0];
-        this.healthImpact = aux[2] - aux[1];
-        this.workImpact = 1 - aux[2];
+        this.healthImpact = 1 - aux[1];
     }
 
     public String getName() {
@@ -72,8 +66,7 @@ public class Settler implements Serializable{
     public double updateHappiness() {
         this.happiness = (entertainmentImpact * colony.getEntertainment() + 
                         foodImpact * colony.getFood() + 
-                        healthImpact * this.health + 
-                        workImpact * (assignedJob != null? 0 : 100)) * 100;
+                        healthImpact * this.health) * 100;
         return happiness;
     }
 
@@ -90,10 +83,6 @@ public class Settler implements Serializable{
         }
     }
 
-    public Job getAssignedJob() {
-        return assignedJob;
-    }
-
     public double getEntertainmentImpact() {
         return entertainmentImpact;
     }
@@ -106,21 +95,36 @@ public class Settler implements Serializable{
         return healthImpact;
     }
 
-    public double getWorkImpact() {
-        return workImpact;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setEntertainmentImpact(double entertainmentImpact) {
+        this.entertainmentImpact = entertainmentImpact;
+    }
+
+    public void setFoodImpact(double foodImpact) {
+        this.foodImpact = foodImpact;
+    }
+
+    public void setHealthImpact(double healthImpact) {
+        this.healthImpact = healthImpact;
     }
 
     // John Doe - 19 years old - 100% health - 100% happiness - Miner
     public String getSettlerInfo(boolean detailed) {
         // A bit of repeated code, but avoids using a StringBuilder
         if (!detailed) {
-            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - " + (assignedJob != null ? assignedJob.getName() : "Unemployed");
+            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - ";
         } else {
-            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - " + (assignedJob != null ? assignedJob.getName() : "Unemployed") +
+            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - " +
                     "\nEntertainment impact: " + (int) (entertainmentImpact * 100) + "%" +
                     "\nFood impact: " + (int) (foodImpact * 100) + "%" +
-                    "\nHealth impact: " + (int) (healthImpact * 100) + "%" +
-                    "\nWork impact: " + (int) (workImpact * 100) + "%";
+                    "\nHealth impact: " + (int) (healthImpact * 100) + "%";
         }
     }
 }

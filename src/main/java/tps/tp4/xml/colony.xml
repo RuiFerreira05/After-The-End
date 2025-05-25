@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE colony SYSTEM "colony.dtd">
+<colony>
+    <colonyName>NewHope</colonyName>
+    <currDay>5</currDay>
+    <resources>
+        <wood>350</wood>
+        <food>420</food>
+        <stone>180</stone>
+        <metal>90</metal>
+        <entertainment>10</entertainment>
+    </resources>
+    <production>
+        <woodProduction>2</woodProduction>
+        <foodProduction>3</foodProduction>
+        <stoneProduction>1</stoneProduction>
+        <metalProduction>1</metalProduction>
+    </production>
+    <population>
+        <current>4</current>
+        <max>13</max>
+        <warriors>1</warriors>
+        <maxWarriors>6</maxWarriors>
+    </population>
+    <settlers>
+        <settler>
+            <name>John</name>
+            <age>32</age>
+            <health>100</health>
+            <happiness>95</happiness>
+            <entertainmentImpact>0.25</entertainmentImpact>
+            <foodImpact>0.50</foodImpact>
+            <healthImpact>0.25</healthImpact>
+        </settler>
+        <settler>
+            <name>Jane</name>
+            <age>27</age>
+            <health>98</health>
+            <happiness>90</happiness>
+            <entertainmentImpact>0.30</entertainmentImpact>
+            <foodImpact>0.40</foodImpact>
+            <healthImpact>0.30</healthImpact>
+        </settler>
+    </settlers>
+    <structures>
+        <structure>
+            <type>house</type>
+            <count>2</count>
+        </structure>
+    </structures>
+</colony>

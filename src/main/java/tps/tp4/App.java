@@ -11,6 +11,7 @@ import java.util.List;
 import tps.tp4.structures.Structure;
 import tps.tp4.ui.UI;
 import tps.tp4.ui.UI_Console;
+import tps.tp4.xml.XMLParser;
 import tps.tp4.errors.*;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,6 +57,18 @@ public class App {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             exit();
         }));
+    }
+
+    public void loadColonyFromXML(File colonyFile) throws Exception {
+        try {
+            colony = XMLParser.parseColony(colonyFile); 
+        } catch (FileLoadException e) {
+            logger.error("Error loading colony from file: " + colonyFile.getName(), e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while loading colony from file: " + colonyFile.getName(), e);
+            throw e;
+        }
     }
 
     private void loadSettings() {
@@ -112,20 +125,6 @@ public class App {
         saveFiles.remove(saveFile);
         logger.info("Save file deleted: " + saveFile.getName());
     }
-
-    // TODO
-    // public void loadXMLFile(File xmlFile) throws FileLoadException {
-    //     try {
-    //         Colony colony = XMLParser.parseColony(xmlFile);
-    //         this.colony = colony;
-    //         saveFiles.add(new File(SAVEPATH + colony.getColonyName() + ".save"));
-    //         saveGame();
-    //         logger.info("Colony loaded from XML file: " + xmlFile.getName());
-    //     } catch (Exception e) {
-    //         logger.error("Error loading XML file: " + xmlFile.getName(), e);
-    //         throw new FileLoadException("Error loading XML file: " + xmlFile.getName(), e);
-    //     }
-    // }
 
     public void saveGame() throws FileSaveException {
         File saveFile = new File(SAVEPATH + colony.getColonyName() + ".save");

@@ -8,10 +8,10 @@ import tps.tp4.structures.Structure;
 import tps.tp4.structures.StructureFactory;
 import tps.tp4.structures.StructureTypes;
 import tps.tp4.ui.UI_Console;
+import tps.tp4.xml.XMLParser;
 import tps.tp4.App;
 import tps.tp4.Colony;
 import tps.tp4.Utils;
-import tps.tp4.XMLParser;
 import tps.tp4.errors.*;
 import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
@@ -313,16 +313,19 @@ public class UI_Console implements UI {
                     break;
                 } else {
                     try {
-                        // app.loadXMLFile(xmlFile); TODO
+                        app.loadColonyFromXML(xmlFile);
                         Utils.printTitle("Colony loaded successfully from XML file: " + xmlFileName);
                         System.out.println("Press enter to continue...");
                         scanner.nextLine();
                         state = GAME_MENU;
-                    } catch (Exception e) {
+                    } catch (FileLoadException e) {
                         Utils.printTitle("Error loading XML file: " + xmlFileName);
                         System.out.println("Press enter to continue...");
                         scanner.nextLine();
-                        break;
+                    } catch (Exception e) {
+                        Utils.printTitle("Unexpected error loading XML file: " + xmlFileName);
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
                     }
                 }
                 break;

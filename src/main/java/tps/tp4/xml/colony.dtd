@@ -1,0 +1,32 @@
+<!ELEMENT colony (colonyName, currDay, resources, production, population, settlers, structures)>
+<!ELEMENT colonyName (#PCDATA)>
+<!ELEMENT currDay (#PCDATA)>
+<!ELEMENT resources (wood, food, stone, metal, entertainment)>
+<!ELEMENT wood (#PCDATA)>
+<!ELEMENT food (#PCDATA)>
+<!ELEMENT stone (#PCDATA)>
+<!ELEMENT metal (#PCDATA)>
+<!ELEMENT entertainment (#PCDATA)>
+<!ELEMENT production (woodProduction, foodProduction, stoneProduction, metalProduction)>
+<!ELEMENT woodProduction (#PCDATA)>
+<!ELEMENT foodProduction (#PCDATA)>
+<!ELEMENT stoneProduction (#PCDATA)>
+<!ELEMENT metalProduction (#PCDATA)>
+<!ELEMENT population (current, max, warriors, maxWarriors)>
+<!ELEMENT current (#PCDATA)>
+<!ELEMENT max (#PCDATA)>
+<!ELEMENT warriors (#PCDATA)>
+<!ELEMENT maxWarriors (#PCDATA)>
+<!ELEMENT settlers (settler*)>
+<!ELEMENT settler (name, age, health, happiness, entertainmentImpact, foodImpact, healthImpact)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT age (#PCDATA)>
+<!ELEMENT health (#PCDATA)>
+<!ELEMENT happiness (#PCDATA)>
+<!ELEMENT entertainmentImpact (#PCDATA)>
+<!ELEMENT foodImpact (#PCDATA)>
+<!ELEMENT healthImpact (#PCDATA)>
+<!ELEMENT structures (structure*)>
+<!ELEMENT structure (type, count)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT count (#PCDATA)>

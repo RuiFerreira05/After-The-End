@@ -246,4 +246,8 @@ public class Colony implements Serializable {
     public List<Structure> getStructures() {
         return structures;
     }
+
+    public void setCurrDay(int currDay) {
+        this.currDay = currDay;
+    }
 }
