@@ -134,7 +134,7 @@ public class UI_Console implements UI {
                 String path = scanner.nextLine();
                 try {
                     XMLParser.writeXMLSettings(path);
-                    Utils.printTitle("Settings written to " + path);
+                    Utils.printTitle("Settings written written to: " + path);
                     System.out.println("Press enter to continue...");
                     scanner.nextLine();
                 } catch (Exception e) {
@@ -264,7 +264,7 @@ public class UI_Console implements UI {
 
     private void playMenu() {
         Utils.printTitle("Before The Fall...");
-        String[] options = new String[App.MAX_SAVES + 3];
+        String[] options = new String[App.MAX_SAVES + 4];
         for (int i = 0; i < app.saveFiles.size(); i++) {
             options[i] = app.saveFiles.get(i).getName().replace(".save", "");
         }
@@ -272,8 +272,9 @@ public class UI_Console implements UI {
             options[i] = "Empty save slot";
         }
         options[App.MAX_SAVES] = "delete save file";
-        options[App.MAX_SAVES + 1] = "load XML file";
-        options[App.MAX_SAVES + 2] = "Back to main menu";
+        options[App.MAX_SAVES + 1] = "load colony XML file";
+        options[App.MAX_SAVES + 2] = "Export colony to XML file";
+        options[App.MAX_SAVES + 3] = "Back to main menu";
         int choice = Utils.choiceList(options, scanner, App.MAX_SAVES);
         switch (choice) {
             case App.MAX_SAVES + 1: // Delete save file
@@ -330,7 +331,38 @@ public class UI_Console implements UI {
                 }
                 break;
 
-            case App.MAX_SAVES + 3: // Back to main menu
+            case App.MAX_SAVES + 3: // Export colony to XML file
+                System.out.println("What colony do you want to export? ");
+                int colonyindex = scanner.nextInt();
+                scanner.nextLine();
+                if (colonyindex < 1 || colonyindex > app.saveFiles.size()) {
+                    Utils.printTitle("Invalid colony number.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    break;
+                } else {
+                    try {
+                        app.parseColony(app.saveFiles.get(colonyindex - 1));
+                        System.out.println("enter the path to export to: ");
+                        String exportPath = scanner.nextLine();
+                        app.exportColonyToXML(exportPath);
+                        Utils.printTitle("Colony exported to XML file: " + exportPath);
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                    } catch (FileLoadException e) {
+                        Utils.printTitle("Error loading colony from save file");
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                    } catch (Exception e) {
+                        Utils.printTitle("Error exporting colony to XML file");
+                        System.out.println("Press enter to continue...");
+                        scanner.nextLine();
+                    } 
+                    
+                }
+                
+
+            case App.MAX_SAVES + 4: // Back to main menu
                 state = MAIN_MENU;
                 break;
 

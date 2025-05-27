@@ -163,4 +163,13 @@ public class App {
         App app = new App(false);
         app.ui.start();
     }
+
+    public void exportColonyToXML(String exportPath) {
+        try {
+            XMLParser.exportColonyToXML(colony, exportPath);
+            logger.info("Colony exported to XML: " + exportPath);
+        } catch (Exception e) {
+            logger.error("Error exporting colony to XML: " + exportPath, e);
+        }
+    }
 }

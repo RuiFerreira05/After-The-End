@@ -5,6 +5,10 @@ import java.nio.file.Files;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -76,7 +80,7 @@ public class XMLParser {
     }
 
     public static void writeXMLSettings(String path) throws Exception {
-        File file = new File(path);
+        File file = new File(path + "/userSettings.xml");
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -159,11 +163,93 @@ public class XMLParser {
                     colony.addSettler(settler);
                 }
             }
-            
+
             return colony;
         } catch (Exception e) {
             e.printStackTrace();
             throw new FileLoadException("Error loading colony file: " + colonyFile.getName(), e);
         }
     }
+
+    public static void exportColonyToXML(Colony colony, String exportPath) throws Exception {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setValidating(true);
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
+
+            // Create root element
+            Element colonyElement = doc.createElement("colony");
+            doc.appendChild(colonyElement);
+
+            // Colony name
+            Element colonyName = doc.createElement("colonyName");
+            colonyName.appendChild(doc.createTextNode(colony.getColonyName()));
+            colonyElement.appendChild(colonyName);
+
+            // Current day
+            Element currDay = doc.createElement("currDay");
+            currDay.appendChild(doc.createTextNode(String.valueOf(colony.getCurrDay())));
+            colonyElement.appendChild(currDay);
+
+            // Resources
+            Element resources = doc.createElement("resources");
+            resources.appendChild(createElementWithText(doc, "wood", String.valueOf(colony.getWood())));
+            resources.appendChild(createElementWithText(doc, "food", String.valueOf(colony.getFood())));
+            resources.appendChild(createElementWithText(doc, "stone", String.valueOf(colony.getStone())));
+            resources.appendChild(createElementWithText(doc, "metal", String.valueOf(colony.getMetal())));
+            resources.appendChild(createElementWithText(doc, "entertainment", String.valueOf(colony.getEntertainment())));
+            colonyElement.appendChild(resources);
+
+            // Production
+            Element production = doc.createElement("production");
+            production.appendChild(createElementWithText(doc, "woodProduction", String.valueOf(colony.getWoodProduction())));
+            production.appendChild(createElementWithText(doc, "foodProduction", String.valueOf(colony.getFoodProduction())));
+            production.appendChild(createElementWithText(doc, "stoneProduction", String.valueOf(colony.getStoneProduction())));
+            production.appendChild(createElementWithText(doc, "metalProduction", String.valueOf(colony.getMetalProduction())));
+            colonyElement.appendChild(production);
+
+            // Structures
+            Element structures = doc.createElement("structures");
+            for (Structure structure : colony.getStructures()) {
+                Element structureElement = doc.createElement("structure");
+                structureElement.appendChild(createElementWithText(doc, "type", structure.getName()));
+                structureElement.appendChild(createElementWithText(doc, "count", String.valueOf(1))); // Assuming one of each type for simplicity
+                structures.appendChild(structureElement);
+            }
+            colonyElement.appendChild(structures);
+
+            // Settlers
+            Element settlers = doc.createElement("settlers");
+            for (Settler settler : colony.getSettlers()) {
+                Element settlerElement = doc.createElement("settler");
+                settlerElement.appendChild(createElementWithText(doc, "name", settler.getName()));
+                settlerElement.appendChild(createElementWithText(doc, "age", String.valueOf(settler.getAge())));
+                settlerElement.appendChild(createElementWithText(doc, "health", String.valueOf(settler.getHealth())));
+                settlerElement.appendChild(createElementWithText(doc, "happiness", String.valueOf(settler.getHappiness())));
+                settlerElement.appendChild(createElementWithText(doc, "entertainmentImpact", String.valueOf(settler.getEntertainmentImpact())));
+                settlerElement.appendChild(createElementWithText(doc, "foodImpact", String.valueOf(settler.getFoodImpact())));
+                settlerElement.appendChild(createElementWithText(doc, "healthImpact", String.valueOf(settler.getHealthImpact())));
+                settlers.appendChild(settlerElement);
+            }
+            colonyElement.appendChild(settlers);
+
+            // Write to file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(exportPath + "/" + colony.getColonyName() + ".xml"));
+            transformer.transform(source, result);
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    private static Node createElementWithText(Document doc, String string, String valueOf) {
+        Element element = doc.createElement(string);
+        element.appendChild(doc.createTextNode(valueOf));
+        return element;
+    }
 }
+
