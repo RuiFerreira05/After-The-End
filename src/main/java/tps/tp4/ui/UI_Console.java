@@ -12,6 +12,7 @@ import tps.tp4.xml.XMLParser;
 import tps.tp4.App;
 import tps.tp4.Colony;
 import tps.tp4.Utils;
+import tps.tp4.Events.Event;
 import tps.tp4.errors.*;
 import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
@@ -164,8 +165,16 @@ public class UI_Console implements UI {
     }
 
     private void nextDay() {
-        // TODO: For now, just skip the day
-        app.nextDay();
+        Event event = app.nextDay();
+        if (event != null) {
+            Utils.printTitle(event.getName());
+            System.out.println(event.getDescription() + "\n");
+            int choice = Utils.choiceList(event.getOptions(), scanner);
+            String consequence = event.impact(app.colony, choice - 1);
+            Utils.printTitle(consequence);
+            System.out.println("Press enter to continue...");
+            scanner.nextLine();
+        }
         state = GAME_MENU;
     }
     
@@ -412,12 +421,14 @@ public class UI_Console implements UI {
     private void gameMenu() {
         Utils.printTitle(app.colony.getColonyName() + " Colony - Day: " + app.colony.getCurrDay() +  " - Population: " + app.colony.getPopulation() + "/" + app.colony.getMaxPopulation());
         System.out.println("Wood: " + app.colony.getWood() + " | Food: " + app.colony.getFood() + " | Stone: " + app.colony.getStone() + " | Metal: " + app.colony.getMetal() + "\n");
+        System.out.println("Overall happiness: " + (int) app.colony.updateOverallHappiness() + "%");
+        System.out.println("Wood production: " + app.colony.getWoodProduction() + " | Food production: " + app.colony.getFoodProduction() + " | Stone production: " + app.colony.getStoneProduction() + " | Metal production: " + app.colony.getMetalProduction() + "\n");
         String[] options = {
             "Next day",
             "Settlers",
             "Structures",
             "Save game",
-            "back to main menu",
+            "Back to main menu",
             "Exit"
         };
         int choice = Utils.choiceList(options, scanner, 3);

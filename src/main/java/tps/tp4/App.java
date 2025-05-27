@@ -12,6 +12,10 @@ import tps.tp4.structures.Structure;
 import tps.tp4.ui.UI;
 import tps.tp4.ui.UI_Console;
 import tps.tp4.xml.XMLParser;
+import tps.tp4.Events.E_GameOver;
+import tps.tp4.Events.Event;
+import tps.tp4.Events.EventFactory;
+import tps.tp4.Events.EventTypes;
 import tps.tp4.errors.*;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,11 +23,6 @@ import org.apache.logging.log4j.Logger;
 
 /*
  * TODO:
- * 
- * - Events
- * 
- * - Save and load game
- *   \ multiple saves
  * 
  * - Settler options
  *   \ hunt, gather, assign to building(?), set as warrior
@@ -154,9 +153,18 @@ public class App {
         }
     }
 
-    public void nextDay() {
+    public Event nextDay() {
         colony.nextDay();
-        // TODO: maybe add events here
+        if (checkGameOver()) {
+            logger.info("Game over");
+            return new E_GameOver();
+        }
+        return EventFactory.createEvent(EventTypes.pickRandom());
+    }
+
+    private boolean checkGameOver() {
+        return colony.getPopulation() == 0 || 
+        (colony.getWood() <= 0 && colony.getFood() <= 0 && colony.getStone() <= 0 && colony.getMetal() <= 0);
     }
 
     public static void main(String[] args) {

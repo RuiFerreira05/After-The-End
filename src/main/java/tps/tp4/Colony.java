@@ -30,6 +30,7 @@ public class Colony implements Serializable {
     private List<Settler> settlers;
     private List<Structure> structures;
     private int currDay;
+    private boolean gameOver;
 
     public Colony(String colonyName) {
         this.settlers = new ArrayList<>();
@@ -50,12 +51,13 @@ public class Colony implements Serializable {
         this.maxWarriors = 1;
         updateOverallHappiness();
         this.currDay = 1;
+        this.gameOver = false;
     }
 
     public double updateOverallHappiness() {
         double happiness = 0;
         for (Settler settler : settlers) {
-            happiness += settler.getHappiness();
+            happiness += settler.updateHappiness();
         }
         this.overAllHappiness = happiness / population;
         return overAllHappiness;
@@ -66,12 +68,8 @@ public class Colony implements Serializable {
         this.food += foodProduction;
         this.stone += stoneProduction;
         this.metal += metalProduction;
-        runEvent();
         currDay++;
-    }
-
-    private void runEvent() {
-        // TODO
+        updateOverallHappiness();
     }
 
     public void addResources(int[] resources) {
@@ -249,5 +247,13 @@ public class Colony implements Serializable {
 
     public void setCurrDay(int currDay) {
         this.currDay = currDay;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

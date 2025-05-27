@@ -64,9 +64,14 @@ public class Settler implements Serializable{
     }
 
     public double updateHappiness() {
-        this.happiness = (entertainmentImpact * colony.getEntertainment() + 
+        this.happiness = Math.min((entertainmentImpact * colony.getEntertainment() + 
                         foodImpact * colony.getFood() + 
-                        healthImpact * this.health) * 100;
+                        healthImpact * this.health), 100);
+        if (happiness < 30) {
+            this.happinessWarning = true;
+        } else {
+            this.happinessWarning = false;
+        }
         return happiness;
     }
 
@@ -119,9 +124,9 @@ public class Settler implements Serializable{
     public String getSettlerInfo(boolean detailed) {
         // A bit of repeated code, but avoids using a StringBuilder
         if (!detailed) {
-            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - ";
+            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness" + (healthWarning ? " - LOW HEALTH" : "") + (happinessWarning ? " - LOW HAPPINESS" : "");
         } else {
-            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness - " +
+            return this.name + " - " + this.age + " years old - " + (int) this.health + "% health - " + (int) this.happiness + "% happiness" + (healthWarning ? " - LOW HEALTH" : "") + (happinessWarning ? " - LOW HAPPINESS" : "") +
                     "\nEntertainment impact: " + (int) (entertainmentImpact * 100) + "%" +
                     "\nFood impact: " + (int) (foodImpact * 100) + "%" +
                     "\nHealth impact: " + (int) (healthImpact * 100) + "%";

@@ -3,8 +3,9 @@ package tps.tp4.structures;
 import java.io.Serializable;
 
 import tps.tp4.Colony;
+import tps.tp4.Interfaces.Impactable;
 
-public abstract class Structure implements Serializable{
+public abstract class Structure implements Serializable, Impactable {
     
     protected String name;
     protected int[] cost;
@@ -28,6 +29,7 @@ public abstract class Structure implements Serializable{
         this(name, cost, 0, 0, 0, 0, 0);
     }
 
+    @Override
     public void impact(Colony colony) {
         colony.setWoodProduction(production[0] + colony.getWoodProduction());
         colony.setFoodProduction(production[1] + colony.getFoodProduction());
