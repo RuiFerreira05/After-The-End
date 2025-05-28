@@ -26,8 +26,16 @@ import tps.tp4.structures.Structure;
 import tps.tp4.structures.StructureFactory;
 import tps.tp4.structures.StructureTypes;
 
+/**
+ * Utility class for parsing and writing XML files for settings and colonies.
+ */
 public class XMLParser {
 
+    /**
+     * Loads game settings from an XML file and updates the Settings class.
+     * @param file The XML file to load.
+     * @throws Exception If loading or parsing fails.
+     */
     public static void loadXMLSettings(File file) throws Exception {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setValidating(true);     
@@ -79,6 +87,11 @@ public class XMLParser {
         Files.copy(file.toPath(), userSettings.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
+    /**
+     * Writes the current user settings to an XML file at the specified path.
+     * @param path The directory to write the settings file to.
+     * @throws Exception If writing fails.
+     */
     public static void writeXMLSettings(String path) throws Exception {
         File file = new File(path + "/userSettings.xml");
         if (!file.exists()) {
@@ -87,6 +100,13 @@ public class XMLParser {
         Files.copy(new File(Settings.USER_SETTINGS_FILE).toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
+    /**
+     * Helper method to extract integer attribute values from XML using XPath.
+     * @param xpath The XPath instance.
+     * @param doc The XML document.
+     * @param expression The XPath expression.
+     * @return An array of extracted integer values.
+     */
     private static int[] extractAttrhelper(XPath xpath, Document doc, String expression) {
         try {
             NodeList nodes = (NodeList) xpath.evaluate(expression, doc, XPathConstants.NODESET);
@@ -101,6 +121,12 @@ public class XMLParser {
         }
     }
 
+    /**
+     * Parses a colony from an XML file and returns a Colony object.
+     * @param colonyFile The XML file containing the colony data.
+     * @return The parsed Colony object.
+     * @throws FileLoadException If parsing fails.
+     */
     public static Colony parseColony(File colonyFile) throws FileLoadException {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -171,6 +197,12 @@ public class XMLParser {
         }
     }
 
+    /**
+     * Exports the given colony to an XML file at the specified export path.
+     * @param colony The colony to export.
+     * @param exportPath The directory to export the XML file to.
+     * @throws Exception If writing fails.
+     */
     public static void exportColonyToXML(Colony colony, String exportPath) throws Exception {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -246,6 +278,13 @@ public class XMLParser {
         }
     }
     
+    /**
+     * Helper method to create an XML element with text content.
+     * @param doc The XML document.
+     * @param string The element name.
+     * @param valueOf The text content.
+     * @return The created Node.
+     */
     private static Node createElementWithText(Document doc, String string, String valueOf) {
         Element element = doc.createElement(string);
         element.appendChild(doc.createTextNode(valueOf));

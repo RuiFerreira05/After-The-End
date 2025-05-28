@@ -21,16 +21,9 @@ import tps.tp4.errors.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/*
- * TODO:
- * 
- * - Settler options
- *   \ hunt, gather, assign to building(?), set as warrior
- * 
- * - Structure options
- *   \ destroy, assign settler(?) 
+/**
+ * Main application class for managing the game state, saves, and user interface.
  */
-
 public class App {
 
     public static final String SAVEPATH = "saves/";
@@ -43,6 +36,10 @@ public class App {
     
     public UI ui;
 
+    /**
+     * Constructs the main application, initializing settings, saves, and UI.
+     * @param debug Whether to enable debug logging.
+     */
     public App(boolean debug) {
         this.colony = null;
         this.saveFiles = new ArrayList<File>();
@@ -58,6 +55,11 @@ public class App {
         }));
     }
 
+    /**
+     * Loads a colony from an XML file using the XMLParser.
+     * @param colonyFile The XML file containing the colony data.
+     * @throws Exception If loading fails.
+     */
     public void loadColonyFromXML(File colonyFile) throws Exception {
         try {
             colony = XMLParser.parseColony(colonyFile); 
@@ -70,6 +72,10 @@ public class App {
         }
     }
 
+    /**
+     * Loads settings from the user or default settings XML file,
+     * with user settings taking precedence.
+     */
     private void loadSettings() {
         File settingsFile = new File("src/main/java/tps/tp4/settings/user_settings.xml");
         if (!settingsFile.exists()) {
@@ -83,6 +89,9 @@ public class App {
         }
     }
 
+    /**
+     * Saves the current game state on application exit, if a colony is loaded.
+     */
     private void exit() {
         if (colony != null) {
             try {
@@ -94,6 +103,9 @@ public class App {
         logger.info("Exiting application.");
     }
 
+    /**
+     * Loads all save files from the save directory into the saveFiles list.
+     */
     public void loadSaves() {
         File[] saves = new File(SAVEPATH).listFiles();
         if (saves != null) {
@@ -105,6 +117,11 @@ public class App {
         }
     }
 
+    /**
+     * Loads a colony from a save file (.save).
+     * @param saveFile The file to load.
+     * @throws FileLoadException If loading fails.
+     */
     public void parseColony(File saveFile) throws FileLoadException {
         try {
             FileInputStream fis = new FileInputStream(saveFile);
@@ -119,12 +136,20 @@ public class App {
         }
     }
 
+    /**
+     * Deletes a save file and removes it from the saveFiles list.
+     * @param saveFile The file to delete.
+     */
     public void deleteSaveFile(File saveFile) {
         saveFile.delete();
         saveFiles.remove(saveFile);
         logger.info("Save file deleted: " + saveFile.getName());
     }
 
+    /**
+     * Saves the current colony to a save file.
+     * @throws FileSaveException If saving fails.
+     */
     public void saveGame() throws FileSaveException {
         File saveFile = new File(SAVEPATH + colony.getColonyName() + ".save");
         if (!saveFile.getParentFile().exists()) {
@@ -143,6 +168,11 @@ public class App {
         }
     }
 
+    /**
+     * Adds a structure to the current colony, updating resources accordingly.
+     * @param structure The structure to add.
+     * @throws NotEnoughResourcesException If resources are insufficient.
+     */
     public void addStructureToColony(Structure structure) throws NotEnoughResourcesException {
         try {
             colony.addStructure(structure);
@@ -153,6 +183,10 @@ public class App {
         }
     }
 
+    /**
+     * Advances the game by one day, triggering events and updating resources.
+     * @return The event that occurred, or null if none.
+     */
     public Event nextDay() {
         colony.nextDay();
         if (checkGameOver()) {
@@ -162,16 +196,28 @@ public class App {
         return EventFactory.createEvent(EventTypes.pickRandom());
     }
 
+    /**
+     * Checks if the game is over based on population and resources.
+     * @return True if the game is over, false otherwise.
+     */
     private boolean checkGameOver() {
         return colony.getPopulation() == 0 || 
         (colony.getWood() <= 0 && colony.getFood() <= 0 && colony.getStone() <= 0 && colony.getMetal() <= 0);
     }
 
+    /**
+     * Main entry point for the application.
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         App app = new App(false);
         app.ui.start();
     }
 
+    /**
+     * Exports the current colony to an XML file at the specified path.
+     * @param exportPath The directory to export the XML file to.
+     */
     public void exportColonyToXML(String exportPath) {
         try {
             XMLParser.exportColonyToXML(colony, exportPath);

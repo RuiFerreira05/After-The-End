@@ -6,6 +6,9 @@ import java.util.Random;
 
 import tps.tp4.Colony;
 
+/**
+ * Represents a settler in the colony, with attributes for health, happiness, and impacts.
+ */
 public class Settler implements Serializable{
 
     private String name;
@@ -20,6 +23,11 @@ public class Settler implements Serializable{
     public boolean healthWarning;
     public boolean happinessWarning;
 
+    /**
+     * Constructs a new Settler with a random age and happiness.
+     * @param name The name of the settler.
+     * @param colony The colony the settler belongs to.
+     */
     public Settler(String name, Colony colony) {
         Random r = new Random();
         this.name = name;
@@ -33,9 +41,9 @@ public class Settler implements Serializable{
     }
 
     /**
-     * Calculates the impacts of different factors on the settler's happiness.
-     * The impacts are randomly generated and sanitized to ensure they sum to 1.
-     * @param r the random number generator used to create the impacts
+     * Calculates the impacts of entertainment, food, and health on happiness.
+     * The impacts are randomly generated and normalized to sum to 1.
+     * @param r The random number generator.
      */
     private void calcImpacts(Random r) {
         double[] aux = new double[2];
@@ -47,22 +55,42 @@ public class Settler implements Serializable{
         this.healthImpact = 1 - aux[1];
     }
 
+    /**
+     * Gets the name of the settler.
+     * @return The settler's name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the age of the settler.
+     * @return The settler's age.
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Gets the happiness value of the settler.
+     * @return The settler's happiness.
+     */
     public double getHappiness() {
         return happiness;
     }
 
+    /**
+     * Sets the happiness value of the settler.
+     * @param happiness The new happiness value.
+     */
     public void setHappiness(double happiness) {
         this.happiness = happiness;
     }
 
+    /**
+     * Updates and returns the settler's happiness based on impacts and colony state.
+     * @return The updated happiness value.
+     */
     public double updateHappiness() {
         this.happiness = Math.min((entertainmentImpact * colony.getEntertainment() + 
                         foodImpact * colony.getFood() + 
@@ -75,10 +103,18 @@ public class Settler implements Serializable{
         return happiness;
     }
 
+    /**
+     * Gets the health value of the settler.
+     * @return The settler's health.
+     */
     public double getHealth() {
         return health;
     }
 
+    /**
+     * Sets the health value of the settler and updates health warnings.
+     * @param health The new health value.
+     */
     public void setHealth(double health) {
         this.health = health;
         if (health < 50) {
@@ -88,39 +124,75 @@ public class Settler implements Serializable{
         }
     }
 
+    /**
+     * Gets the entertainment impact factor.
+     * @return The entertainment impact.
+     */
     public double getEntertainmentImpact() {
         return entertainmentImpact;
     }
 
+    /**
+     * Gets the food impact factor.
+     * @return The food impact.
+     */
     public double getFoodImpact() {
         return foodImpact;
     }
 
+    /**
+     * Gets the health impact factor.
+     * @return The health impact.
+     */
     public double getHealthImpact() {
         return healthImpact;
     }
 
+    /**
+     * Sets the name of the settler.
+     * @param name The new name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets the age of the settler.
+     * @param age The new age.
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
+    /**
+     * Sets the entertainment impact factor.
+     * @param entertainmentImpact The new entertainment impact.
+     */
     public void setEntertainmentImpact(double entertainmentImpact) {
         this.entertainmentImpact = entertainmentImpact;
     }
 
+    /**
+     * Sets the food impact factor.
+     * @param foodImpact The new food impact.
+     */
     public void setFoodImpact(double foodImpact) {
         this.foodImpact = foodImpact;
     }
 
+    /**
+     * Sets the health impact factor.
+     * @param healthImpact The new health impact.
+     */
     public void setHealthImpact(double healthImpact) {
         this.healthImpact = healthImpact;
     }
 
-    // John Doe - 19 years old - 100% health - 100% happiness - Miner
+    /**
+     * Returns a string with settler information, optionally detailed.
+     * @param detailed Whether to include detailed impact info.
+     * @return The settler info string.
+     */
     public String getSettlerInfo(boolean detailed) {
         // A bit of repeated code, but avoids using a StringBuilder
         if (!detailed) {

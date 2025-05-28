@@ -3,8 +3,14 @@ package tps.tp4.Events;
 import tps.tp4.Colony;
 import tps.tp4.settlers.Settler;
 
+/**
+ * Event representing a raid on the colony by hostile forces.
+ */
 public class E_Raid extends Event {
 
+    /**
+     * Constructs the Raid event with its options and description.
+     */
     public E_Raid() {
         this.name = "Raid";
         this.description = "A group of hostile raiders has attacked your colony, stealing resources and causing chaos. You must decide how to respond.";
@@ -13,6 +19,12 @@ public class E_Raid extends Event {
         options.add("Surrender.");
     }
 
+    /**
+     * Applies the impact of the raid event based on the player's choice.
+     * @param colony The colony affected.
+     * @param choice The player's choice index.
+     * @return A string describing the outcome.
+     */
     @Override
     public String impact(Colony colony, int choice) {
         switch (choice) {

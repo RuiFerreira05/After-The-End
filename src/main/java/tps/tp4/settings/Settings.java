@@ -1,5 +1,8 @@
 package tps.tp4.settings;
 
+/**
+ * Holds all configurable game settings, loaded from XML files.
+ */
 public class Settings {
 
     public static final String DEFAULT_SETTINGS_FILE = "src/main/java/tps/tp4/settings/default_settings.xml";
@@ -40,6 +43,9 @@ public class Settings {
     public static int[] BARRACKS_PRODUCTION;
     public static int BARRACKS_WARRIORS_INCREASE;
 
+    /**
+     * Prints all current settings values to the console for debugging purposes.
+     */
     public static void debug() {
         System.out.println(INITIAL_MAX_POPULATION);
         System.out.println(INITIAL_WOOD);

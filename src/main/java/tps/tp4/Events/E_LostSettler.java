@@ -5,8 +5,14 @@ import tps.tp4.Names;
 import tps.tp4.errors.PopulationLimitException;
 import tps.tp4.settlers.Settler;
 
+/**
+ * Event representing a lost settler joining or being ignored by the colony.
+ */
 public class E_LostSettler extends Event {
     
+    /**
+     * Constructs the Lost Settler event with its options and description.
+     */
     public E_LostSettler() {
         this.name = "Lost Settler";
         this.description = "A lost wanderer has stumbled into the colony, do you want to help them?";
@@ -14,6 +20,12 @@ public class E_LostSettler extends Event {
         options.add("Ignore the lost settler");
     }
 
+    /**
+     * Applies the impact of the event based on the player's choice.
+     * @param colony The colony affected.
+     * @param choice The player's choice index.
+     * @return A string describing the outcome.
+     */
     @Override
     public String impact(Colony colony, int choice) {
         if (choice == 0) {
@@ -29,6 +41,11 @@ public class E_LostSettler extends Event {
         }
     }
 
+    /**
+     * Creates a random settler to potentially join the colony.
+     * @param colony The colony to join.
+     * @return The new Settler.
+     */
     private Settler createRandomSettler(Colony colony) {
         this.name = Names.pickRandom();
         Settler settler = new Settler(name, colony);

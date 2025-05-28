@@ -1,7 +1,16 @@
 package tps.tp4.structures;
 
+/**
+ * Factory class for creating Structure instances based on StructureTypes.
+ */
 public class StructureFactory {
     
+    /**
+     * Creates a new Structure instance of the specified type.
+     * @param type The type of structure to create.
+     * @return The created Structure.
+     * @throws IllegalArgumentException If the type is unknown.
+     */
     public static Structure createStructure(StructureTypes type) throws IllegalArgumentException {
         switch (type) {
             case HOUSE:

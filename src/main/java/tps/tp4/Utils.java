@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Utility class providing helper methods for UI and input handling.
+ */
 public class Utils {
+    /**
+     * Prints a formatted title with surrounding lines for emphasis.
+     * @param title The title to print.
+     */
     public static void printTitle(String title) {
         int size = Math.max(title.length() + 4, 41);
         StringBuilder sb = new StringBuilder();
@@ -14,6 +21,13 @@ public class Utils {
         System.out.println(sb.toString());
     }
 
+    /**
+     * Displays a list of options to the user, with optional separators, and returns the chosen index.
+     * @param options The options to display.
+     * @param scanner The Scanner for user input.
+     * @param separators Indices at which to insert blank lines.
+     * @return The user's choice (1-based index).
+     */
     public static int choiceList(String[] options, Scanner scanner, int[] separators) {
         List<Integer> separatorList = new ArrayList<>();
         for (int separator : separators) {
@@ -44,10 +58,23 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays a list of options to the user with a single separator.
+     * @param options The options to display.
+     * @param scanner The Scanner for user input.
+     * @param separator The index at which to insert a blank line.
+     * @return The user's choice (1-based index).
+     */
     public static int choiceList(String[] options, Scanner scanner, int separator) {
         return choiceList(options, scanner, new int[] {separator});
     }
 
+    /**
+     * Displays a list of options to the user with no separators.
+     * @param options The options to display.
+     * @param scanner The Scanner for user input.
+     * @return The user's choice (1-based index).
+     */
     public static int choiceList(String[] options, Scanner scanner) {
         return choiceList(options, scanner, -1);
     }
