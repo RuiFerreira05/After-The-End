@@ -1,4 +1,4 @@
-package tps.tp4.xml;
+package tps.tp4;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -18,9 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import tps.tp4.Colony;
 import tps.tp4.errors.FileLoadException;
-import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
 import tps.tp4.structures.Structure;
 import tps.tp4.structures.StructureFactory;

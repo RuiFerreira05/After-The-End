@@ -1,6 +1,6 @@
 package tps.tp4.structures;
 
-import tps.tp4.settings.Settings;
+import tps.tp4.Settings;
 
 public class S_WoodCuttersLodge extends Structure {
     private static final int[] COST = Settings.WOODCUTTER_LODGE_COST; // wood, stone, metal

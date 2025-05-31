@@ -1,6 +1,6 @@
 package tps.tp4.structures;
 
-import tps.tp4.settings.Settings;
+import tps.tp4.Settings;
 
 public class S_Mine extends Structure {
     private static final int[] COST = Settings.MINE_COST; // wood, stone, metal

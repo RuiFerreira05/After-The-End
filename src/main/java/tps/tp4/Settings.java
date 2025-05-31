@@ -1,4 +1,4 @@
-package tps.tp4.settings;
+package tps.tp4;
 
 /**
  * Holds all configurable game settings, loaded from XML files.

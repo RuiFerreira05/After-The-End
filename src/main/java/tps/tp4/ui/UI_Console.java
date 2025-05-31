@@ -12,6 +12,7 @@ import tps.tp4.App;
 import tps.tp4.Colony;
 import tps.tp4.Settings;
 import tps.tp4.Utils;
+import tps.tp4.XMLParser;
 import tps.tp4.Events.Event;
 import tps.tp4.errors.*;
 import tps.tp4.settlers.Settler;
