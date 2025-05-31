@@ -8,13 +8,12 @@ import tps.tp4.structures.Structure;
 import tps.tp4.structures.StructureFactory;
 import tps.tp4.structures.StructureTypes;
 import tps.tp4.ui.UI_Console;
-import tps.tp4.xml.XMLParser;
 import tps.tp4.App;
 import tps.tp4.Colony;
+import tps.tp4.Settings;
 import tps.tp4.Utils;
 import tps.tp4.Events.Event;
 import tps.tp4.errors.*;
-import tps.tp4.settings.Settings;
 import tps.tp4.settlers.Settler;
 
 public class UI_Console implements UI {
@@ -23,7 +22,6 @@ public class UI_Console implements UI {
     private static final int GAME_MENU = 2;
     private static final int SETTLER_MENU = 3;
     private static final int STRUCTURE_MENU = 4;
-    private static final int EVENT_MENU = 5;
     private static final int BUILD_STRUCTURE_MENU = 6;
     private static final int EXIT = 7;
     private static final int PLAY_MENU = 8;
@@ -79,11 +77,6 @@ public class UI_Console implements UI {
 
                 case BUILD_STRUCTURE_MENU:
                     buildStructureMenu();
-                    break;
-
-                case EVENT_MENU:
-                    // eventMenu();
-                    // TODO
                     break;
 
                 case SETTINGS_MENU:

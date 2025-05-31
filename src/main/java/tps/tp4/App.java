@@ -11,7 +11,6 @@ import java.util.List;
 import tps.tp4.structures.Structure;
 import tps.tp4.ui.UI;
 import tps.tp4.ui.UI_Console;
-import tps.tp4.xml.XMLParser;
 import tps.tp4.Events.E_GameOver;
 import tps.tp4.Events.Event;
 import tps.tp4.Events.EventFactory;
