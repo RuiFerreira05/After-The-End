@@ -16,5 +16,4 @@ public class PopulationLimitException extends Exception {
     public PopulationLimitException(Throwable cause) {
         super(cause);
     }
-
 }

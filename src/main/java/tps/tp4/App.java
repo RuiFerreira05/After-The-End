@@ -11,6 +11,7 @@ import java.util.List;
 import tps.tp4.structures.Structure;
 import tps.tp4.ui.UI;
 import tps.tp4.ui.UI_Console;
+import tps.tp4.ui.swing.UI_Swing;
 import tps.tp4.Events.E_GameOver;
 import tps.tp4.Events.Event;
 import tps.tp4.Events.EventFactory;
@@ -44,7 +45,9 @@ public class App {
         this.saveFiles = new ArrayList<File>();
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
-        this.ui = new UI_Console(this);
+        // To use Swing UI, replace UI_Console with UI_Swing below:
+        // this.ui = new UI_Console(this);
+        this.ui = new UI_Swing(this);
         loadSaves();
         loadSettings();
 
