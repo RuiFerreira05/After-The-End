@@ -3,6 +3,13 @@ package tps.tp4;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+
+import tps.tp4.ui.swing.UI_Swing;
+
 
 /**
  * Utility class providing helper methods for UI and input handling.
@@ -77,5 +84,42 @@ public class Utils {
      */
     public static int choiceList(String[] options, Scanner scanner) {
         return choiceList(options, scanner, -1);
+    }
+
+    /**
+     * Creates a JButton with the specified text and action listener.
+     * Uses the UI_Swing constants for styling (Background, Foreground and Font).
+     * Also adds hover effects to change the button's background color when hovered.
+     * 
+     * @see UI_Swing
+     * @param text The text to display on the button.
+     * @param action The ActionListener to handle button clicks.
+     * @return The created JButton.
+     */
+    public static JButton createButton(String text, ActionListener action) {
+        JButton button = new JButton(text);
+        button.setBackground(UI_Swing.BUTTON_COLOR);
+        button.setForeground(UI_Swing.BUTTON_TEXT_COLOR);
+        button.setFocusPainted(false);
+        button.setFont(UI_Swing.DEFAULT_FONT);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                button.setBackground(button.getBackground().darker());
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                button.setBackground(UI_Swing.BUTTON_COLOR);
+            }
+        });
+
+        button.addActionListener(action);
+
+        return button;
     }
 }
