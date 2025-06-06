@@ -41,5 +41,6 @@ public class UI_Swing implements UI {
             controller.showPanel("MAIN_MENU");
             frame.setVisible(true);
         });
+        app.logger.info("Swing UI started successfully.");
     }
 }
