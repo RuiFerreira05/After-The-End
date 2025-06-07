@@ -16,9 +16,9 @@ public class UI_Swing implements UI {
     public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 20);
     public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 62);
 
-    private final String initialMenu = "MAIN_MENU"; //TODO
+    private final String initialMenu = "MAIN_MENU";
 
-    App app;
+    private final App app;
 
     public UI_Swing(App app) {
         this.app = app;
@@ -35,10 +35,11 @@ public class UI_Swing implements UI {
             JPanel container = new JPanel(new CardLayout());
             frame.add(container);
 
-            UI_Controller controller = new UI_Controller(container);
+            UI_Controller controller = new UI_Controller(container, app);
 
             controller.registerPanel(new UI_MainMenu(controller), "MAIN_MENU");
             controller.registerPanel(new UI_SettingsMenu(controller), "SETTINGS_MENU");
+            controller.registerPanel(new UI_SavesMenu(controller), "SAVES_MENU");
 
             controller.showPanel(initialMenu);
             frame.setVisible(true);

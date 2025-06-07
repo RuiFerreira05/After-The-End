@@ -310,7 +310,7 @@ public class XMLParser {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(exportPath + "/" + colony.getColonyName() + ".xml"));
+            StreamResult result = new StreamResult(new File(exportPath));
             transformer.transform(source, result);
 
         } catch (Exception e) {

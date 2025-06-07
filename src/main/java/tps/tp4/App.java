@@ -45,18 +45,19 @@ public class App {
         this.saveFiles = new ArrayList<File>();
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
+        loadSaves();
+        loadSettings();
+        
+        // run the exit method when the program is terminated
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            exit();
+        }));
+        
         if (ui.equals("console")) {
             this.ui = new UI_Console(this);
         } else {
             this.ui = new UI_Swing(this);
         }
-        loadSaves();
-        loadSettings();
-
-        // run the exit method when the program is terminated
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            exit();
-        }));
     }
 
     /**

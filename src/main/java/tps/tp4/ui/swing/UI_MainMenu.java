@@ -24,7 +24,7 @@ public class UI_MainMenu extends UI_Menu {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton startButton = Utils.createButton("Start Game", (e) -> {
-            controller.showPanel("SETTINGS_MENU");
+            controller.showPanel("SAVES_MENU");
         });
 
         JButton settingsButton = Utils.createButton("Settings", (e) -> {

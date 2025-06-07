@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="settings.dtd" type="application/xml-dtd"?>
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+    <initial>
+        <maxPopulation>3</maxPopulation>
+        <wood>1000</wood>
+        <food>1000</food>
+        <stone>1000</stone>
+        <metal>1000</metal>
+        <entertainment>42</entertainment>
+        <woodProduction>42</woodProduction>
+        <foodProduction>42</foodProduction>
+        <stoneProduction>42</stoneProduction>
+        <metalProduction>42</metalProduction>
+    </initial>
+    <building name="house">
+        <cost wood="100" stone="10" metal="0"/>
+        <production wood="0" food="0" stone="0" metal="0" entertainment="0"/>
+        <populationIncrease>3</populationIncrease>
+    </building>
+    <building name="farm">
+        <cost wood="50" stone="0" metal="0"/>
+        <production wood="0" food="10" stone="0" metal="0" entertainment="0"/>
+    </building>
+    <building name="factory">
+        <cost wood="200" stone="50" metal="0"/>
+        <production wood="0" food="0" stone="0" metal="20" entertainment="0"/>
+    </building>
+    <building name="hospital">
+        <cost wood="100" stone="100" metal="0"/>
+        <production wood="0" food="0" stone="0" metal="0" entertainment="0"/>
+    </building>
+    <building name="woodcutterLodge">
+        <cost wood="20" stone="0" metal="0"/>
+        <production wood="10" food="0" stone="0" metal="0" entertainment="0"/>
+    </building>
+    <building name="mine">
+        <cost wood="100" stone="0" metal="0"/>
+        <production wood="0" food="0" stone="20" metal="0" entertainment="0"/>
+    </building>
+    <building name="barracks">
+        <cost wood="200" stone="100" metal="0"/>
+        <production wood="0" food="0" stone="0" metal="0" entertainment="0"/>
+        <warriorsIncrease>2</warriorsIncrease>
+    </building>
+</settings>
