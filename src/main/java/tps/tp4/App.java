@@ -79,9 +79,9 @@ public class App {
      * with user settings taking precedence.
      */
     private void loadSettings() {
-        File settingsFile = new File("src/main/java/tps/tp4/settings/user_settings.xml");
+        File settingsFile = new File(Settings.USER_SETTINGS_FILE);
         if (!settingsFile.exists()) {
-            settingsFile = new File("src/main/java/tps/tp4/settings/default_settings.xml");
+            settingsFile = new File(Settings.DEFAULT_SETTINGS_FILE);
         }
         try {
             XMLParser.loadXMLSettings(settingsFile);
@@ -206,16 +206,7 @@ public class App {
         return colony.getPopulation() == 0 || 
         (colony.getWood() <= 0 && colony.getFood() <= 0 && colony.getStone() <= 0 && colony.getMetal() <= 0);
     }
-
-    /**
-     * Main entry point for the application.
-     * @param args Command-line arguments.
-     */
-    public static void main(String[] args) {
-        App app = new App(false);
-        app.ui.start();
-    }
-
+    
     /**
      * Exports the current colony to an XML file at the specified path.
      * @param exportPath The directory to export the XML file to.
@@ -227,5 +218,14 @@ public class App {
         } catch (Exception e) {
             logger.error("Error exporting colony to XML: " + exportPath, e);
         }
+    }
+
+    /**
+     * Main entry point for the application.
+     * @param args Command-line arguments.
+     */
+    public static void main(String[] args) {
+        App app = new App(true);
+        app.ui.start();
     }
 }

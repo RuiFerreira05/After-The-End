@@ -9,12 +9,14 @@ import tps.tp4.ui.UI;
 public class UI_Swing implements UI {
 
     public static final Color BACKGROUND_COLOR = new Color(207, 207, 207);
-    public static final Color TITLE_COLOR = new Color(0, 0, 0);
+    public static final Color TITLE_COLOR = new Color(40, 40, 40);
     public static final Color BUTTON_COLOR = new Color(83, 83, 83);
     public static final Color BUTTON_TEXT_COLOR = new Color(255, 255, 255);
 
     public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 20);
     public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 62);
+
+    private final String initialMenu = "SETTINGS_MENU"; //TODO
 
     App app;
 
@@ -38,7 +40,7 @@ public class UI_Swing implements UI {
             controller.registerPanel(new UI_MainMenu(controller), "MAIN_MENU");
             controller.registerPanel(new UI_SettingsMenu(controller), "SETTINGS_MENU");
 
-            controller.showPanel("MAIN_MENU");
+            controller.showPanel(initialMenu);
             frame.setVisible(true);
         });
         app.logger.info("Swing UI started successfully.");
