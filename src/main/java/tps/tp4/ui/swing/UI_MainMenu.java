@@ -20,7 +20,7 @@ public class UI_MainMenu extends UI_Menu {
 
         JLabel titleLabel = new JLabel("After the End");
         titleLabel.setFont(UI_Swing.TITLE_FONT);
-        titleLabel.setForeground(UI_Swing.TITLE_COLOR);
+        titleLabel.setForeground(UI_Swing.TEXT_COLOR);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton startButton = Utils.createButton("Start Game", (e) -> {

@@ -9,14 +9,14 @@ import tps.tp4.ui.UI;
 public class UI_Swing implements UI {
 
     public static final Color BACKGROUND_COLOR = new Color(207, 207, 207);
-    public static final Color TITLE_COLOR = new Color(40, 40, 40);
+    public static final Color TEXT_COLOR = new Color(40, 40, 40);
     public static final Color BUTTON_COLOR = new Color(83, 83, 83);
     public static final Color BUTTON_TEXT_COLOR = new Color(255, 255, 255);
 
     public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 20);
     public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 62);
 
-    private final String initialMenu = "SETTINGS_MENU"; //TODO
+    private final String initialMenu = "MAIN_MENU"; //TODO
 
     App app;
 

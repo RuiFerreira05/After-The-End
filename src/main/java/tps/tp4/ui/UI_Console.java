@@ -98,7 +98,8 @@ public class UI_Console implements UI {
 
     private void settingsMenu() {
         Utils.printTitle("Settings");
-        Settings.debug(); // Print current settings for debugging purposes
+        System.out.println(Settings.outputString()); // Print current settings for debugging purposes
+        System.out.println();
         String[] options = {
             "Load settings from XML file",
             "write settings to XML file",
@@ -129,7 +130,7 @@ public class UI_Console implements UI {
                 String path = scanner.nextLine();
                 try {
                     XMLParser.writeXMLSettings(path);
-                    Utils.printTitle("Settings written written to: " + path);
+                    Utils.printTitle("Settings written to: " + path);
                     System.out.println("Press enter to continue...");
                     scanner.nextLine();
                 } catch (Exception e) {

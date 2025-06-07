@@ -56,26 +56,68 @@ public class XMLParser {
         Settings.INITIAL_METAL_PRODUCTION = Integer.parseInt((String) xpath.evaluate("/settings/initial/metalProduction", doc, XPathConstants.STRING));
 
         Settings.HOUSE_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='house']/cost/@*");
-        Settings.HOUSE_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='house']/production/@*");
+        Settings.HOUSE_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/production/@entertainment", doc, XPathConstants.STRING))
+        };
         Settings.HOUSE_POPULATION_INCREASE = Integer.parseInt((String) xpath.evaluate("/settings/building[@name='house']/populationIncrease", doc, XPathConstants.STRING));
 
         Settings.FARM_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='farm']/cost/@*");
-        Settings.FARM_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='farm']/production/@*");
+        Settings.FARM_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='farm']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='farm']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='farm']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='farm']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='farm']/production/@entertainment", doc, XPathConstants.STRING))
+        };
 
         Settings.FACTORY_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='factory']/cost/@*");
-        Settings.FACTORY_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='factory']/production/@*");
+        Settings.FACTORY_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='factory']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='factory']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='factory']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='factory']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='factory']/production/@entertainment", doc, XPathConstants.STRING))
+        };
 
         Settings.HOSPITAL_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='hospital']/cost/@*");
-        Settings.HOSPITAL_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='hospital']/production/@*");
+        Settings.HOSPITAL_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='hospital']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='hospital']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='hospital']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='hospital']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='hospital']/production/@entertainment", doc, XPathConstants.STRING))
+        };
 
         Settings.WOODCUTTER_LODGE_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='woodcutterLodge']/cost/@*");
-        Settings.WOODCUTTER_LODGE_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='woodcutterLodge']/production/@*");
+        Settings.WOODCUTTER_LODGE_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='woodcutterLodge']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='woodcutterLodge']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='woodcutterLodge']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='woodcutterLodge']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='woodcutterLodge']/production/@entertainment", doc, XPathConstants.STRING))
+        };
 
         Settings.MINE_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='mine']/cost/@*");
-        Settings.MINE_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='mine']/production/@*");
+        Settings.MINE_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='mine']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='mine']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='mine']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='mine']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='mine']/production/@entertainment", doc, XPathConstants.STRING))
+        };
 
         Settings.BARRACKS_COST = extractAttrhelper(xpath, doc, "/settings/building[@name='barracks']/cost/@*");
-        Settings.BARRACKS_PRODUCTION = extractAttrhelper(xpath, doc, "/settings/building[@name='barracks']/production/@*");
+        Settings.BARRACKS_PRODUCTION = new int[] {
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/production/@wood", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/production/@food", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/production/@stone", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/production/@metal", doc, XPathConstants.STRING)),
+            Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/production/@entertainment", doc, XPathConstants.STRING))
+        };
         Settings.BARRACKS_WARRIORS_INCREASE = Integer.parseInt((String) xpath.evaluate("/settings/building[@name='barracks']/warriorsIncrease", doc, XPathConstants.STRING));
 
         File userSettings = new File(Settings.USER_SETTINGS_FILE);
@@ -91,7 +133,7 @@ public class XMLParser {
      * @throws Exception If writing fails.
      */
     public static void writeXMLSettings(String path) throws Exception {
-        File file = new File(path + "/userSettings.xml");
+        File file = new File(path);
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -110,7 +152,7 @@ public class XMLParser {
             NodeList nodes = (NodeList) xpath.evaluate(expression, doc, XPathConstants.NODESET);
             int[] values = new int[nodes.getLength()];
             for (int i = 0; i < nodes.getLength(); i++) {
-                values[i] = Integer.parseInt(nodes.item(i).getNodeValue());
+                values[i] = Integer.parseInt(nodes.item(nodes.getLength()-1 - i).getNodeValue());
             }
             return values;
         } catch (Exception e) {

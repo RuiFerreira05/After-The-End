@@ -40,14 +40,16 @@ public class App {
      * Constructs the main application, initializing settings, saves, and UI.
      * @param debug Whether to enable debug logging.
      */
-    public App(boolean debug) {
+    public App(boolean debug, String ui) {
         this.colony = null;
         this.saveFiles = new ArrayList<File>();
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
-        // To use Swing UI, replace UI_Console with UI_Swing below:
-        // this.ui = new UI_Console(this);
-        this.ui = new UI_Swing(this);
+        if (ui.equals("console")) {
+            this.ui = new UI_Console(this);
+        } else {
+            this.ui = new UI_Swing(this);
+        }
         loadSaves();
         loadSettings();
 
@@ -225,7 +227,7 @@ public class App {
      * @param args Command-line arguments.
      */
     public static void main(String[] args) {
-        App app = new App(true);
+        App app = new App(true, "swing");
         app.ui.start();
     }
 }
