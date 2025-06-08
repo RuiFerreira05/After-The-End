@@ -13,8 +13,8 @@ public class UI_Swing implements UI {
     public static final Color BUTTON_COLOR = new Color(83, 83, 83);
     public static final Color BUTTON_TEXT_COLOR = new Color(255, 255, 255);
 
-    public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 20);
-    public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 62);
+    public static final Font DEFAULT_FONT = new Font("Bell MT", Font.PLAIN, 22);
+    public static final Font TITLE_FONT = new Font("Bell MT", Font.BOLD, 62);
 
     private final String initialMenu = "MAIN_MENU";
 

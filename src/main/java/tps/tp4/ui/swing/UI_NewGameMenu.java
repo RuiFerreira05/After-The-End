@@ -24,7 +24,7 @@ public class UI_NewGameMenu extends UI_Menu {
         mainPanel.setBounds(0, 0, 800, 600);
 
         JLabel titleLabel = new JLabel("And so, the journey begins...");
-        titleLabel.setFont(UI_Swing.DEFAULT_FONT.deriveFont(32f));
+        titleLabel.setFont(UI_Swing.DEFAULT_FONT.deriveFont(34f));
         titleLabel.setForeground(UI_Swing.TEXT_COLOR);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -64,8 +64,8 @@ public class UI_NewGameMenu extends UI_Menu {
         bottomPanel.setBackground(UI_Swing.BACKGROUND_COLOR);
         bottomPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton backButton = Utils.createButton("Back", (event) -> {
-            controller.showPanel("MAIN_MENU");
+        JButton backButton = Utils.createButton("Back to saves", (event) -> {
+            controller.showPanel("SAVES_MENU");
         });
 
         JButton continueButton = Utils.createButton("Continue", (event) -> {
@@ -106,7 +106,7 @@ public class UI_NewGameMenu extends UI_Menu {
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(bottomPanel);
 
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 20, 20, 20));
 
         add(mainPanel);
     }
