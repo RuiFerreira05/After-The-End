@@ -41,6 +41,7 @@ public class UI_SavesMenu extends UI_Menu {
                 try {
                     controller.getApp().parseColony(saveFile);
                     JOptionPane.showMessageDialog(null, "Save loaded successfully: " + saveFile.getName(), "Load Successful", JOptionPane.INFORMATION_MESSAGE);
+                    controller.registerPanel(new UI_PlayMenu(controller), "PLAY_MENU");
                     controller.showPanel("PLAY_MENU"); //TODO
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Failed to load save: " + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);

@@ -105,6 +105,7 @@ public class Colony implements Serializable {
         if (population < maxPopulation) {
             settlers.add(settler);
             population++;
+            foodProduction -= 5;
             updateOverallHappiness();
         } else {
             throw new PopulationLimitException();

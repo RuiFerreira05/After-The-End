@@ -84,6 +84,7 @@ public class UI_NewGameMenu extends UI_Menu {
                 }
                 controller.getApp().colony = colony;
                 controller.getApp().logger.info("New game started with colony: " + colonyName + " and settler: " + settlerName);
+                controller.registerPanel(new UI_PlayMenu(controller), "PLAY_MENU");
                 controller.showPanel("PLAY_MENU"); //TODO
             }
         });

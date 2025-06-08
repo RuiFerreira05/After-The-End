@@ -33,6 +33,8 @@ public class App {
     public List<File> saveFiles;
     public boolean debug;
     public Logger logger;
+
+    public Event currentEvent;
     
     public UI ui;
 
@@ -45,6 +47,7 @@ public class App {
         this.saveFiles = new ArrayList<File>();
         this.debug = debug;
         this.logger = LogManager.getLogger(debug ? "debugLogger" : "defaultLogger");
+        this.currentEvent = null;
         loadSaves();
         loadSettings();
         
@@ -198,7 +201,8 @@ public class App {
             logger.info("Game over");
             return new E_GameOver();
         }
-        return EventFactory.createEvent(EventTypes.pickRandom());
+        this.currentEvent = EventFactory.createEvent(EventTypes.pickRandom());
+        return currentEvent;
     }
 
     /**

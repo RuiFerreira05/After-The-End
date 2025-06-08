@@ -95,6 +95,7 @@ public class Settler implements Serializable{
         this.happiness = Math.min((entertainmentImpact * colony.getEntertainment() + 
                         foodImpact * colony.getFood() + 
                         healthImpact * this.health), 100);
+        this.happiness = (int) this.happiness;
         if (happiness < 30) {
             this.happinessWarning = true;
         } else {
