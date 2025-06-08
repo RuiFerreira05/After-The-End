@@ -162,8 +162,10 @@ public class UI_SavesMenu extends UI_Menu {
                     if (selectedFile != null) {
                         try {
                             controller.getApp().loadColonyFromXML(selectedFile);
-                            JOptionPane.showMessageDialog(null, "Save imported successfully: " + selectedFile.getName(), "Import Successful", JOptionPane.INFORMATION_MESSAGE);
-                            controller.showPanel("MAIN_MENU"); //TODO
+                            controller.getApp().saveGame();
+                            controller.getApp().saveFiles.clear();
+                            controller.getApp().loadSaves();
+                            updateSaveFiles();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Failed to import save: " + e.getMessage(), "Import Error", JOptionPane.ERROR_MESSAGE);
                             controller.getApp().logger.error("Failed to import save: " + e.getMessage(), e);
