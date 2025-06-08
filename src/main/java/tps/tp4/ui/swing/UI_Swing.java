@@ -40,6 +40,7 @@ public class UI_Swing implements UI {
             controller.registerPanel(new UI_MainMenu(controller), "MAIN_MENU");
             controller.registerPanel(new UI_SettingsMenu(controller), "SETTINGS_MENU");
             controller.registerPanel(new UI_SavesMenu(controller), "SAVES_MENU");
+            controller.registerPanel(new UI_NewGameMenu(controller), "NEW_GAME_MENU");
 
             controller.showPanel(initialMenu);
             frame.setVisible(true);
